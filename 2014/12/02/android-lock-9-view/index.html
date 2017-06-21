@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 九宫格锁屏布局 - Android Lock9View | TakWolf &#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近项目要实现一个类似支付宝类似需求的锁屏需求，找的一些第三方实现或多或少都有些问题。这个功能实现起来不是很困难，于是就参看了一些例子，自己做了一个。 源代码已经托管于Github：Android-Lock9View">
+<meta name="keywords" content="Android,自定义View">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 九宫格锁屏布局 - Android Lock9View">
+<meta property="og:url" content="http://blog.takwolf.com/2014/12/02/android-lock-9-view/index.html">
+<meta property="og:site_name" content="TakWolf &#39;s Blog">
+<meta property="og:description" content="最近项目要实现一个类似支付宝类似需求的锁屏需求，找的一些第三方实现或多或少都有些问题。这个功能实现起来不是很困难，于是就参看了一些例子，自己做了一个。 源代码已经托管于Github：Android-Lock9View">
+<meta property="og:image" content="http://blog.takwolf.com/img/lock9view.png">
+<meta property="og:updated_time" content="2017-06-21T03:31:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 九宫格锁屏布局 - Android Lock9View">
+<meta name="twitter:description" content="最近项目要实现一个类似支付宝类似需求的锁屏需求，找的一些第三方实现或多或少都有些问题。这个功能实现起来不是很困难，于是就参看了一些例子，自己做了一个。 源代码已经托管于Github：Android-Lock9View">
+<meta name="twitter:image" content="http://blog.takwolf.com/img/lock9view.png">
+  
+    <link rel="alternate" href="/atom.xml" title="TakWolf &#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">TakWolf &#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Anima Game Code Repeat</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.takwolf.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-android-lock-9-view" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/12/02/android-lock-9-view/" class="article-date">
+  <time datetime="2014-12-02T13:32:06.000Z" itemprop="datePublished">2014-12-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/技术/">技术</a>►<a class="article-category-link" href="/categories/技术/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android 九宫格锁屏布局 - Android Lock9View
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/img/lock9view.png" alt="Screenshot"></p>
+<p>最近项目要实现一个类似支付宝类似需求的锁屏需求，找的一些第三方实现或多或少都有些问题。<br>这个功能实现起来不是很困难，于是就参看了一些例子，自己做了一个。</p>
+<p>源代码已经托管于Github：<a href="https://github.com/TakWolf/Android-Lock9View" target="_blank" rel="external">Android-Lock9View</a></p>
+<a id="more"></a>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>创建一个自定义 View 继承自 ViewGroup，用9个子 View 表现节点，在 onDraw 中绘制线段。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>废话不多说，Lock9View.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * Copyright 2015-2016 TakWolf</div><div class="line"> *</div><div class="line"> * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</div><div class="line"> * you may not use this file except in compliance with the License.</div><div class="line"> * You may obtain a copy of the License at</div><div class="line"> *</div><div class="line"> *     http://www.apache.org/licenses/LICENSE-2.0</div><div class="line"> *</div><div class="line"> * Unless required by applicable law or agreed to in writing, software</div><div class="line"> * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</div><div class="line"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</div><div class="line"> * See the License for the specific language governing permissions and</div><div class="line"> * limitations under the License.</div><div class="line"> */</div><div class="line"></div><div class="line">package com.takwolf.android.lock9;</div><div class="line"></div><div class="line">import android.content.Context;</div><div class="line">import android.content.res.TypedArray;</div><div class="line">import android.graphics.Canvas;</div><div class="line">import android.graphics.Color;</div><div class="line">import android.graphics.Paint;</div><div class="line">import android.graphics.Paint.Style;</div><div class="line">import android.graphics.drawable.Drawable;</div><div class="line">import android.util.AttributeSet;</div><div class="line">import android.util.Pair;</div><div class="line">import android.view.MotionEvent;</div><div class="line">import android.view.View;</div><div class="line">import android.view.ViewGroup;</div><div class="line"></div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">public class Lock9View extends ViewGroup &#123;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 节点相关定义</div><div class="line">     */</div><div class="line">    private List&lt;Pair&lt;NodeView, NodeView&gt;&gt; lineList = new ArrayList&lt;Pair&lt;NodeView,NodeView&gt;&gt;(); // 已经连线的节点链表</div><div class="line">    private NodeView currentNode; // 最近一个点亮的节点，null表示还没有点亮任何节点</div><div class="line">    private float x; // 当前手指坐标x</div><div class="line">    private float y; // 当前手指坐标y</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 自定义属性列表</div><div class="line">     */</div><div class="line">    private Drawable nodeSrc;</div><div class="line">    private Drawable nodeOnSrc;</div><div class="line">    private int lineColor;</div><div class="line">    private float lineWidth;</div><div class="line">    private float padding; // 内边距</div><div class="line">    private float spacing; // 节点间隔距离</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 画线用的画笔</div><div class="line">     */</div><div class="line">    private Paint paint;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 密码构建器</div><div class="line">     */</div><div class="line">    private StringBuilder passwordBuilder = new StringBuilder();</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 结果回调监听器接口</div><div class="line">     */</div><div class="line">    private CallBack callBack;</div><div class="line"></div><div class="line">    public interface CallBack &#123;</div><div class="line"></div><div class="line">        public void onFinish(String password);</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setCallBack(CallBack callBack) &#123;</div><div class="line">        this.callBack = callBack;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 构造函数</div><div class="line">     */</div><div class="line">    public Lock9View(Context context) &#123;</div><div class="line">        this(context, null);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public Lock9View(Context context, AttributeSet attrs) &#123;</div><div class="line">        this(context, attrs, 0);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public Lock9View(Context context, AttributeSet attrs, int defStyleAttr) &#123;</div><div class="line">        this(context, attrs, defStyleAttr, 0);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public Lock9View(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) &#123;</div><div class="line">        super(context, attrs, defStyleAttr); // TODO 这个构造函数在api21以上版本才可用</div><div class="line">        initFromAttributes(attrs, defStyleAttr);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 初始化</div><div class="line">     */</div><div class="line">    private void initFromAttributes(AttributeSet attrs, int defStyleAttr) &#123;</div><div class="line">        // 获取定义的属性</div><div class="line">        final TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.Lock9View, defStyleAttr, 0);</div><div class="line"></div><div class="line">        nodeSrc = a.getDrawable(R.styleable.Lock9View_lock9_nodeSrc);</div><div class="line">        nodeOnSrc = a.getDrawable(R.styleable.Lock9View_lock9_nodeOnSrc);</div><div class="line">        lineColor = a.getColor(R.styleable.Lock9View_lock9_lineColor, Color.argb(0, 0, 0, 0));</div><div class="line">        lineWidth = a.getDimension(R.styleable.Lock9View_lock9_lineWidth, 0);</div><div class="line">        padding = a.getDimension(R.styleable.Lock9View_lock9_padding, 0);</div><div class="line">        spacing = a.getDimension(R.styleable.Lock9View_lock9_spacing, 0);</div><div class="line"></div><div class="line">        a.recycle();</div><div class="line"></div><div class="line">        // 初始化画笔</div><div class="line">        paint = new Paint(Paint.DITHER_FLAG);</div><div class="line">        paint.setStyle(Style.STROKE);</div><div class="line">        paint.setStrokeWidth(lineWidth);</div><div class="line">        paint.setColor(lineColor);</div><div class="line">        paint.setAntiAlias(true); // 抗锯齿</div><div class="line"></div><div class="line">        // 构建node</div><div class="line">        for (int n = 0; n &lt; 9; n++) &#123;</div><div class="line">            NodeView node = new NodeView(getContext(), n + 1);</div><div class="line">            addView(node);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // 清除FLAG，否则 onDraw() 不会调用，原因是 ViewGroup 默认透明背景不需要调用 onDraw()</div><div class="line">        setWillNotDraw(false);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * TODO 我们让高度等于宽度 - 这么使用不清楚是否正确</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</div><div class="line">        setMeasuredDimension(widthMeasureSpec, widthMeasureSpec);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 在这里进行node的布局</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    protected void onLayout(boolean changed, int left, int top, int right, int bottom) &#123;</div><div class="line">        if (changed) &#123;</div><div class="line">            int nodeWidth = (int) ((right - left - padding * 2 - spacing * 2) / 3);</div><div class="line">            for (int n = 0; n &lt; 9; n++) &#123;</div><div class="line">                NodeView node = (NodeView) getChildAt(n);</div><div class="line">                // 获取3*3宫格内坐标</div><div class="line">                int row = n / 3;</div><div class="line">                int col = n % 3;</div><div class="line">                // 计算实际的坐标，要包括内边距和分割边距</div><div class="line">                int l = (int) (padding + col * (nodeWidth + spacing));</div><div class="line">                int t = (int) (padding + row * (nodeWidth + spacing));</div><div class="line">                int r = l + nodeWidth;</div><div class="line">                int b = t + nodeWidth;</div><div class="line">                node.layout(l, t, r, b);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 在这里处理手势</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public boolean onTouchEvent(MotionEvent event) &#123;</div><div class="line">        switch (event.getAction()) &#123;</div><div class="line">            case MotionEvent.ACTION_DOWN:</div><div class="line">            case MotionEvent.ACTION_MOVE:</div><div class="line">                x = event.getX(); // 这里要实时记录手指的坐标</div><div class="line">                y = event.getY();</div><div class="line">                NodeView nodeAt = getNodeAt(x, y);</div><div class="line">                if (currentNode == null) &#123; // 之前没有点</div><div class="line">                    if (nodeAt != null) &#123; // 第一个点</div><div class="line">                        currentNode = nodeAt;</div><div class="line">                        currentNode.setHighLighted(true);</div><div class="line">                        passwordBuilder.append(currentNode.getNum());</div><div class="line">                        invalidate();  // 通知重绘</div><div class="line">                    &#125;</div><div class="line">                &#125; else &#123; // 之前有点-所以怎么样都要重绘</div><div class="line">                    if (nodeAt != null &amp;&amp; !nodeAt.isHighLighted()) &#123; // 当前碰触了新点</div><div class="line">                        nodeAt.setHighLighted(true);</div><div class="line">                        Pair&lt;NodeView, NodeView&gt; pair = new Pair&lt;NodeView, NodeView&gt;(currentNode, nodeAt);</div><div class="line">                        lineList.add(pair);</div><div class="line">                        // 赋值当前的node</div><div class="line">                        currentNode = nodeAt;</div><div class="line">                        passwordBuilder.append(currentNode.getNum());</div><div class="line">                    &#125;</div><div class="line">                    invalidate(); // 通知重绘</div><div class="line">                &#125;</div><div class="line">                break;</div><div class="line">            case MotionEvent.ACTION_UP:</div><div class="line">                if (passwordBuilder.length() &gt; 0) &#123; // 有触摸点</div><div class="line">                    // 回调结果</div><div class="line">                    if (callBack != null) &#123;</div><div class="line">                        callBack.onFinish(passwordBuilder.toString());</div><div class="line">                    &#125;</div><div class="line">                    // 清空状态</div><div class="line">                    lineList.clear();</div><div class="line">                    currentNode = null;</div><div class="line">                    passwordBuilder.setLength(0);</div><div class="line">                    // 清除高亮</div><div class="line">                    for (int n = 0; n &lt; getChildCount(); n++) &#123;</div><div class="line">                        NodeView node = (NodeView) getChildAt(n);</div><div class="line">                        node.setHighLighted(false);</div><div class="line">                    &#125;</div><div class="line">                    // 通知重绘</div><div class="line">                    invalidate();</div><div class="line">                &#125;</div><div class="line">                break;</div><div class="line">        &#125;</div><div class="line">        return true;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 系统绘制回调-主要绘制连线</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    protected void onDraw(Canvas canvas) &#123;</div><div class="line">        // 先绘制已有的连线</div><div class="line">        for (Pair&lt;NodeView, NodeView&gt; pair : lineList) &#123;</div><div class="line">            canvas.drawLine(pair.first.getCenterX(), pair.first.getCenterY(), pair.second.getCenterX(), pair.second.getCenterY(), paint);</div><div class="line">        &#125;</div><div class="line">        // 如果已经有点亮的点，则在点亮点和手指位置之间绘制连线</div><div class="line">        if (currentNode != null) &#123;</div><div class="line">            canvas.drawLine(currentNode.getCenterX(), currentNode.getCenterY(), x, y, paint);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 获取给定坐标点的Node，返回null表示当前手指在两个Node之间</div><div class="line">     */</div><div class="line">    private NodeView getNodeAt(float x, float y) &#123;</div><div class="line">        for (int n = 0; n &lt; getChildCount(); n++) &#123;</div><div class="line">            NodeView node = (NodeView) getChildAt(n);</div><div class="line">            if (!(x &gt;= node.getLeft() &amp;&amp; x &lt; node.getRight())) &#123;</div><div class="line">                continue;</div><div class="line">            &#125;</div><div class="line">            if (!(y &gt;= node.getTop() &amp;&amp; y &lt; node.getBottom())) &#123;</div><div class="line">                continue;</div><div class="line">            &#125;</div><div class="line">            return node;</div><div class="line">        &#125;</div><div class="line">        return null;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 结点描述类</div><div class="line">     */</div><div class="line">    private class NodeView extends View &#123;</div><div class="line"></div><div class="line">        private int num;</div><div class="line">        private boolean highLighted = false;</div><div class="line"></div><div class="line">        public NodeView(Context context, int num) &#123;</div><div class="line">            super(context);</div><div class="line">            this.num = num;</div><div class="line">            setBackgroundDrawable(nodeSrc);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        public boolean isHighLighted() &#123;</div><div class="line">            return highLighted;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        public void setHighLighted(boolean highLighted) &#123;</div><div class="line">            if (this.highLighted != highLighted) &#123;</div><div class="line">                this.highLighted = highLighted;</div><div class="line">                setBackgroundDrawable(highLighted ? nodeOnSrc : nodeSrc);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        public int getCenterX() &#123;</div><div class="line">            return (getLeft() + getRight()) / 2;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        public int getCenterY() &#123;</div><div class="line">            return (getTop() + getBottom()) / 2;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        public int getNum() &#123;</div><div class="line">            return num;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>需要注意的几点：</p>
+<ul>
+<li><p>初始化中调用 setWillNotDraw(false) ，否则 onDraw() 函数是不会被调用的。原因是ViewGroup本身就是容器控件，大多情况下是透明的，因此调用 onDraw() 没有意义，除非你给他设置一个背景色。这种做法可以提高渲染性能。但是这样的话我们就没办法在 onDraw() 中绘制手势了。使用 setWillNotDraw(false) 可以清除这个FLAG</p>
+</li>
+<li><p>onMeasure 和 onLayout 分别用来控制自身控件尺寸和子控件渲染方式。上面的实现中控件高度永远是等于宽度的，因此需要在 onMeasure 中调用 setMeasuredDimension(widthMeasureSpec, widthMeasureSpec) 让宽高相等</p>
+</li>
+<li><p>onDraw 函数并不是每一帧都调用的，在状态改变之后要调用 invalidate() 通知系统更新视图</p>
+</li>
+</ul>
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p>使用十分简单。布局中这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;com.takwolf.android.lock9.Lock9View</div><div class="line">    android:id=&quot;@+id/lock_9_view&quot;</div><div class="line">    android:layout_width=&quot;match_parent&quot;</div><div class="line">    android:layout_height=&quot;wrap_content&quot; /&gt;</div></pre></td></tr></table></figure>
+<p>Activity中这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Lock9View lock9View = (Lock9View) findViewById(R.id.lock_9_view);</div><div class="line">lock9View.setCallBack(new CallBack() &#123;</div><div class="line">    @Override</div><div class="line">		public void onFinish(String password) &#123;</div><div class="line">			  Toast.makeText(MainActivity.this, password, Toast.LENGTH_SHORT).show();</div><div class="line">		&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>以上。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.takwolf.com/2014/12/02/android-lock-9-view/" data-id="cj46g23s700080q1f8ncl4ssr" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自定义View/">自定义View</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/12/03/pjsip-android-compilation/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          PJSIP 编译 Android 平台，报错：cannot locate symbol &quot;rand&quot; referenced by &quot;libpjsua.so&quot;
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/11/28/new-just-author-home-page/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">重新制作了主页，Just Author Home Page</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术/">技术</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Hexo/">Hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/MariaDB/">MariaDB</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Ruby/">Ruby</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Spring-Boot/">Spring Boot</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Vue-js/">Vue.js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/nginx/">nginx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/npm/">npm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/发现/">发现</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/">杂谈</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/二次元/">二次元</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/作品/">作品</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/创业/">创业</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/吐槽/">吐槽</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/B站/">B站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EnableJpaAuditing/">EnableJpaAuditing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EnableScheduling/">EnableScheduling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GFW/">GFW</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Log/">Log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MariaDB/">MariaDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rails/">Rails</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/">Ruby</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SIP/">SIP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Data/">Spring Data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue-js/">Vue.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/主页/">主页</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/创业/">创业</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/吐槽/">吐槽</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/暖丘/">暖丘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/曲径/">曲径</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科学上网/">科学上网</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义View/">自定义View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频播放/">视频播放</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音频播放/">音频播放</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/B站/" style="font-size: 10px;">B站</a> <a href="/tags/EnableJpaAuditing/" style="font-size: 10px;">EnableJpaAuditing</a> <a href="/tags/EnableScheduling/" style="font-size: 10px;">EnableScheduling</a> <a href="/tags/GFW/" style="font-size: 10px;">GFW</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 17.5px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/MariaDB/" style="font-size: 10px;">MariaDB</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Rails/" style="font-size: 10px;">Rails</a> <a href="/tags/Redis/" style="font-size: 12.5px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/SIP/" style="font-size: 10px;">SIP</a> <a href="/tags/Spring-Boot/" style="font-size: 15px;">Spring Boot</a> <a href="/tags/Spring-Data/" style="font-size: 10px;">Spring Data</a> <a href="/tags/Vue-js/" style="font-size: 10px;">Vue.js</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/主页/" style="font-size: 10px;">主页</a> <a href="/tags/创业/" style="font-size: 10px;">创业</a> <a href="/tags/吐槽/" style="font-size: 10px;">吐槽</a> <a href="/tags/暖丘/" style="font-size: 10px;">暖丘</a> <a href="/tags/曲径/" style="font-size: 10px;">曲径</a> <a href="/tags/科学上网/" style="font-size: 10px;">科学上网</a> <a href="/tags/自定义View/" style="font-size: 10px;">自定义View</a> <a href="/tags/视频播放/" style="font-size: 10px;">视频播放</a> <a href="/tags/音频播放/" style="font-size: 10px;">音频播放</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/03/05/android-log-wtf/">Android - 关于 Log.wtf()</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/01/npm-config-registry/">npm 修改镜像地址</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/19/setup-nginx-on-ubuntu/">在 Ubuntu 上安装配置 nginx 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/18/setup-redis-on-ubuntu/">在 Ubuntu 上安装 Redis 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/17/setup-mariadb-on-ubuntu/">在 Ubuntu 上安装配置 MariaDB 笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 TakWolf<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

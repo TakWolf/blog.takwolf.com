@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>在 Windows 上搭建 Ruby on Rails 环境 | TakWolf &#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一篇在 Windows 上折腾 Ruby on Rails 开发环境的笔记。当然社区的建议是，不要在 Windows 上使用 Ruby !!!">
+<meta name="keywords" content="Ruby,Rails">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Windows 上搭建 Ruby on Rails 环境">
+<meta property="og:url" content="http://blog.takwolf.com/2014/11/26/setup-ruby-on-windows/index.html">
+<meta property="og:site_name" content="TakWolf &#39;s Blog">
+<meta property="og:description" content="一篇在 Windows 上折腾 Ruby on Rails 开发环境的笔记。当然社区的建议是，不要在 Windows 上使用 Ruby !!!">
+<meta property="og:image" content="http://blog.takwolf.com/img/rails-hello-world-page.png">
+<meta property="og:updated_time" content="2017-06-21T03:31:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在 Windows 上搭建 Ruby on Rails 环境">
+<meta name="twitter:description" content="一篇在 Windows 上折腾 Ruby on Rails 开发环境的笔记。当然社区的建议是，不要在 Windows 上使用 Ruby !!!">
+<meta name="twitter:image" content="http://blog.takwolf.com/img/rails-hello-world-page.png">
+  
+    <link rel="alternate" href="/atom.xml" title="TakWolf &#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">TakWolf &#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Anima Game Code Repeat</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.takwolf.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-setup-ruby-on-windows" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/11/26/setup-ruby-on-windows/" class="article-date">
+  <time datetime="2014-11-26T14:31:15.000Z" itemprop="datePublished">2014-11-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/技术/">技术</a>►<a class="article-category-link" href="/categories/技术/Ruby/">Ruby</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      在 Windows 上搭建 Ruby on Rails 环境
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一篇在 Windows 上折腾 Ruby on Rails 开发环境的笔记。当然社区的建议是，不要在 Windows 上使用 Ruby !!!</p>
+<a id="more"></a>
+<h2 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h2><p><a href="http://git-scm.com/download/" target="_blank" rel="external">http://git-scm.com/download/</a></p>
+<p>正常安装，注意勾选：添加环境变量到PATH</p>
+<p>带有一个 Bash shell，比默认的 CMD 好用一些。</p>
+<h2 id="安装Ruby"><a href="#安装Ruby" class="headerlink" title="安装Ruby"></a>安装Ruby</h2><p>使用 RubyInstaller，地址在：</p>
+<p><a href="http://rubyinstaller.org/downloads/" target="_blank" rel="external">http://rubyinstaller.org/downloads/</a></p>
+<p>这是官方推荐的 Ruby 安装工具。<br>笔者下载的是当前最新的版本<a href="http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.1.5.exe?direct" target="_blank" rel="external">Ruby2.1.5</a>。<br>笔者是64位电脑，但是选择的不是64位的安装包。我也建议你不要安装64位的，至于原因，后面会有解释。</p>
+<p>安装很简单，注意勾选：添加环境变量到PATH</p>
+<p>安装之后，打开bash，输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ruby -v</div></pre></td></tr></table></figure>
+<p>提示版本号，表明安装成功</p>
+<h2 id="安装-RubyRems"><a href="#安装-RubyRems" class="headerlink" title="安装 RubyRems"></a>安装 RubyRems</h2><p>gem 是 Ruby 上很重要的一个工具，基本上所有的 Ruby 工具集都通过 gem 来管理。他的功能和 Node 中的 npm 差不多。</p>
+<p>RubyGems 下载地址：</p>
+<p><a href="http://rubygems.org/pages/download" target="_blank" rel="external">http://rubygems.org/pages/download</a></p>
+<p>下载后解压到一个目录，打开 bash，输入命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd &lt;your gem path&gt;</div><div class="line">$ ruby setup.rb</div></pre></td></tr></table></figure>
+<p>等提示成功之后输入命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ gem -v</div></pre></td></tr></table></figure>
+<p>提示版本号，表明安装成功</p>
+<h2 id="安装-DevKit"><a href="#安装-DevKit" class="headerlink" title="安装 DevKit"></a>安装 DevKit</h2><p>首先解释一下什么是 DevKit。Ruby 的工具集都是通过 gem 管理的，很多都是以源代码发行的，而且涉及和C相关的部分。<br>DevKit 实际上就是帮助这些源代码在 Windows 上进行编译的工具。如果不安装，在安装某些 Ruby 工具的时候可能会提示类似下面的错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Please update your PATH to include build tools or download the DevKit from &apos;http://rubyinstaller.org/downloads&apos; and follow the instructions at &apos;http://github.com/oneclick/rubyinstaller/wiki/Development-Kit&apos;</div></pre></td></tr></table></figure>
+<p>这是因为没有安装 DevKit 的缘故。</p>
+<p>回到刚才的<a href="http://rubyinstaller.org/downloads/" target="_blank" rel="external">RubyInstall</a>页面：</p>
+<p><a href="http://rubyinstaller.org/downloads/" target="_blank" rel="external">http://rubyinstaller.org/downloads/</a></p>
+<p>在页面底部找到 DevKit 下载，<br>笔者选择的是<a href="http://cdn.rubyinstaller.org/archives/devkits/DevKit-mingw64-32-4.7.2-20130224-1151-sfx.exe" target="_blank" rel="external">For use with Ruby 2.0 and 2.1 (32bits version only)</a><br>我这里选择的也是32位版本，和 Ruby 匹配。</p>
+<p>下载之后是个自解压文件，运行自解压，然后打开bash，输入命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd &lt;your devkit path&gt;</div><div class="line">$ ruby dk.rb init</div></pre></td></tr></table></figure>
+<p>这时候目录下会生成 config.yml 文件，表示初始化成功，之后输入命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ruby dk.rb install</div></pre></td></tr></table></figure>
+<p>没问题的话，一堆命令之后会提示成功</p>
+<p>要注意的是，DevKit 仅支持通过 RubyInstall 安装的 Ruby 环境</p>
+<h2 id="安装-Rails"><a href="#安装-Rails" class="headerlink" title="安装 Rails"></a>安装 Rails</h2><p>打开 Bash 输入命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ gem install rails</div></pre></td></tr></table></figure>
+<p>一堆命令之后，输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ rails -v</div></pre></td></tr></table></figure>
+<p>提示版本号，表明安装成功</p>
+<h2 id="一个小问题"><a href="#一个小问题" class="headerlink" title="一个小问题"></a>一个小问题</h2><p>你可能发现，我们之前每次输入命令都会有一句提示，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ rails -v</div><div class="line">DL is deprecated, please use Fiddle</div><div class="line">Rails 4.1.8</div></pre></td></tr></table></figure>
+<p>这里第二行其实是一个警告，产生的原因是 Ruby 和 Windows 环境的兼容的问题。<br>但是实际上并不影响我们使用，因此解决的方案就是，当做没看见吧。</p>
+<h2 id="HelloWorld"><a href="#HelloWorld" class="headerlink" title="HelloWorld"></a>HelloWorld</h2><p>激动的时刻就要来啦，我们找一个目录，作为Ruby项目的存放目录，我这里假如这个目录是<code>workspace</code>，输入命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd ~/workspace</div><div class="line">$ rails new hellp_world</div></pre></td></tr></table></figure>
+<p>命令提示首先在<code>hello_world</code>目录下创建了一堆文件，然后执行了<code>bundle install</code>命令，开始安装并下载组件</p>
+<p>等一切完成之后，输入命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd hello_world</div><div class="line">$ rails server</div></pre></td></tr></table></figure>
+<p>会有如下提示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">=&gt; Booting WEBrick</div><div class="line">=&gt; Rails 4.1.8 application starting in development on http://localhost:3000</div><div class="line">=&gt; Run &apos;rails server -h&apos; for more startup options</div><div class="line">=&gt; Ctrl-C to shutdown server</div></pre></td></tr></table></figure>
+<p>我们根据提示，在浏览器访问<a href="http://localhost:3000" target="_blank" rel="external">http://localhost:3000</a>，出现如下页面，就说明你成功了。</p>
+<p><img src="/img/rails-hello-world-page.png" alt=""></p>
+<h2 id="关于刚刚提到的64位的问题"><a href="#关于刚刚提到的64位的问题" class="headerlink" title="关于刚刚提到的64位的问题"></a>关于刚刚提到的64位的问题</h2><p>如果你安装的是64位的 Ruby 的话，在创建 Rails 的 Hello World 项目是可能会遇到下面的错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">No timezone data source could be found. To resolve this, either install</div><div class="line">TZInfo::Data (e.g. by running `gem install tzinfo-data`) or specify a zoneinfo</div><div class="line">directory using `TZInfo::DataSource.set(:zoneinfo, zoneinfo_path)`.</div><div class="line">(TZInfo::DataSourceNotFound)</div></pre></td></tr></table></figure>
+<p>这是由于 Rails 的依赖组件 tzinfo-data 默认情况下没有安装64位版本。<br>解决的办法是，在创建的 Rails 应用目录下找到 gemfile 文件，找到如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gem &apos;tzinfo-data&apos;, platforms: [:mingw, :mswin]</div></pre></td></tr></table></figure>
+<p>改为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gem &apos;tzinfo-data&apos;, platforms: [:mingw, :mswin, :x64_mingw]</div></pre></td></tr></table></figure>
+<p>然后输入命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ bundle update</div></pre></td></tr></table></figure>
+<p>等待下载完成后重启服务器即可。</p>
+<p>关于这个问题，在 StackOverFlow 上的相关链接<br><a href="http://stackoverflow.com/questions/23022258/tzinfodatasourcenotfound-error-starting-rails-v4-1-0-server-on-windows" target="_blank" rel="external">http://stackoverflow.com/questions/23022258/tzinfodatasourcenotfound-error-starting-rails-v4-1-0-server-on-windows</a></p>
+<p>其实如果你直接安装32位版本的 Ruby，就不会存在这个问题。</p>
+<h2 id="可能会有-Sqlite3-的错误"><a href="#可能会有-Sqlite3-的错误" class="headerlink" title="可能会有 Sqlite3 的错误"></a>可能会有 Sqlite3 的错误</h2><p>Rails4 默认使用 Sqlite 作为默认配置的数据库解决方案。<br>如果在运行 Rails 程序中出现关于 Sqlite 的错误，到这个页面<a href="http://www.sqlite.org/download.html" target="_blank" rel="external">http://www.sqlite.org/download.html</a><br>找到<code>Precompiled Binaries for Windows</code>的部分，<br>下载<a href="http://www.sqlite.org/2014/sqlite-dll-win32-x86-3080702.zip" target="_blank" rel="external">sqlite-dll-win32-x86-3080702.zip</a><br>解压后放到Path目录之中就行了。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>最后推荐一本十分不错的 Ruby on Rails 入门教程《Ruby on Rails 教程》（原书第 3 版）<br>你可以在<a href="http://railstutorial-china.org/" target="_blank" rel="external">http://railstutorial-china.org/</a>找到他的在线阅读版。<br>在线阅读是免费的。当然你也可以付费买下电子版。</p>
+<p>最好，祝你好运 ~ Have fun!</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.takwolf.com/2014/11/26/setup-ruby-on-windows/" data-id="cj46g23to00210q1fiw6n08p2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Rails/">Rails</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ruby/">Ruby</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/11/28/new-just-author-home-page/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          重新制作了主页，Just Author Home Page
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/11/26/android-goto-app-market/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Android 跳转到应用市场详细信息页面</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术/">技术</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Hexo/">Hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/MariaDB/">MariaDB</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Ruby/">Ruby</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Spring-Boot/">Spring Boot</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Vue-js/">Vue.js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/nginx/">nginx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/npm/">npm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/发现/">发现</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/">杂谈</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/二次元/">二次元</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/作品/">作品</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/创业/">创业</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/吐槽/">吐槽</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/B站/">B站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EnableJpaAuditing/">EnableJpaAuditing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EnableScheduling/">EnableScheduling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GFW/">GFW</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Log/">Log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MariaDB/">MariaDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rails/">Rails</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/">Ruby</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SIP/">SIP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Data/">Spring Data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue-js/">Vue.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/主页/">主页</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/创业/">创业</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/吐槽/">吐槽</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/暖丘/">暖丘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/曲径/">曲径</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科学上网/">科学上网</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义View/">自定义View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频播放/">视频播放</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音频播放/">音频播放</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/B站/" style="font-size: 10px;">B站</a> <a href="/tags/EnableJpaAuditing/" style="font-size: 10px;">EnableJpaAuditing</a> <a href="/tags/EnableScheduling/" style="font-size: 10px;">EnableScheduling</a> <a href="/tags/GFW/" style="font-size: 10px;">GFW</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 17.5px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/MariaDB/" style="font-size: 10px;">MariaDB</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Rails/" style="font-size: 10px;">Rails</a> <a href="/tags/Redis/" style="font-size: 12.5px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/SIP/" style="font-size: 10px;">SIP</a> <a href="/tags/Spring-Boot/" style="font-size: 15px;">Spring Boot</a> <a href="/tags/Spring-Data/" style="font-size: 10px;">Spring Data</a> <a href="/tags/Vue-js/" style="font-size: 10px;">Vue.js</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/主页/" style="font-size: 10px;">主页</a> <a href="/tags/创业/" style="font-size: 10px;">创业</a> <a href="/tags/吐槽/" style="font-size: 10px;">吐槽</a> <a href="/tags/暖丘/" style="font-size: 10px;">暖丘</a> <a href="/tags/曲径/" style="font-size: 10px;">曲径</a> <a href="/tags/科学上网/" style="font-size: 10px;">科学上网</a> <a href="/tags/自定义View/" style="font-size: 10px;">自定义View</a> <a href="/tags/视频播放/" style="font-size: 10px;">视频播放</a> <a href="/tags/音频播放/" style="font-size: 10px;">音频播放</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/03/05/android-log-wtf/">Android - 关于 Log.wtf()</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/01/npm-config-registry/">npm 修改镜像地址</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/19/setup-nginx-on-ubuntu/">在 Ubuntu 上安装配置 nginx 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/18/setup-redis-on-ubuntu/">在 Ubuntu 上安装 Redis 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/17/setup-mariadb-on-ubuntu/">在 Ubuntu 上安装配置 MariaDB 笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 TakWolf<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Spring Boot 配置定时任务 | TakWolf &#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在 Spring Boot 中配置定时任务非常简单。默认就支持，他在 spring-context 里面，不需要添加其他依赖。">
+<meta name="keywords" content="Java,Spring Boot,EnableScheduling">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot 配置定时任务">
+<meta property="og:url" content="http://blog.takwolf.com/2016/10/05/spring-boot-enable-scheduling/index.html">
+<meta property="og:site_name" content="TakWolf &#39;s Blog">
+<meta property="og:description" content="在 Spring Boot 中配置定时任务非常简单。默认就支持，他在 spring-context 里面，不需要添加其他依赖。">
+<meta property="og:updated_time" content="2017-06-21T03:31:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Boot 配置定时任务">
+<meta name="twitter:description" content="在 Spring Boot 中配置定时任务非常简单。默认就支持，他在 spring-context 里面，不需要添加其他依赖。">
+  
+    <link rel="alternate" href="/atom.xml" title="TakWolf &#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">TakWolf &#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Anima Game Code Repeat</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://blog.takwolf.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-spring-boot-enable-scheduling" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/05/spring-boot-enable-scheduling/" class="article-date">
+  <time datetime="2016-10-04T19:47:48.000Z" itemprop="datePublished">2016-10-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/技术/">技术</a>►<a class="article-category-link" href="/categories/技术/Spring-Boot/">Spring Boot</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Spring Boot 配置定时任务
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在 Spring Boot 中配置定时任务非常简单。<br>默认就支持，他在 spring-context 里面，不需要添加其他依赖。</p>
+<a id="more"></a>
+<p>在你的启动类上添加启用定时任务的注解：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@SpringBootApplication</div><div class="line">@EnableScheduling // 这里，启用定时任务</div><div class="line">class Application &#123; ...... &#125;</div></pre></td></tr></table></figure>
+<p>然后，你就可以创建一个定时任务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">@Component</div><div class="line">public class ScheduledTasks &#123;</div><div class="line"></div><div class="line">    private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);</div><div class="line"></div><div class="line">    @Scheduled(fixedDelay = 1000 * 60 * 10)</div><div class="line">    public void printHelloWorld() &#123;</div><div class="line">        log.info(&quot;Hello World!&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>所有被<code>@Scheduled</code>注解标注的方法，都会成为一个定时任务，被定期调用。<br>也就是说你可以标注多个方法为定时任务。<br>注意这个方法必须是无参数的。</p>
+<p>任务规则如下：<br>@Scheduled(fixedDelay = 5000) // 上一个任务执行完成的时间开始，延迟这么长时间，再执行下一次<br>@Scheduled(fixedRate = 5000)  // 按照固定的频率调用，不管上一个任务的执行时间<br>两者任务执行的时间计算方式是有差别的，要注意。</p>
+<p>这里还支持一个<code>cron</code>的参数通过表达式支持更复杂的设置，例如：<br>@Scheduled(cron = “0 <em> </em> <em> </em> MON-FRI”)<br>详细的说明可以看这个博客：<a href="http://biaoming.iteye.com/blog/39532" target="_blank" rel="external">http://biaoming.iteye.com/blog/39532</a></p>
+<p>此外，还有一个附加参数，用来设定第一次任务的执行时间，例如：<br>@Scheduled(initialDelay = 10000, fixedRate = 5000) // 程序启动后，10秒后执行第一次任务，之后每5秒执行一次任务。</p>
+<p><strong>上面的都非常好理解。下面，重点来了！</strong></p>
+<p>1.如果，定时任务中执行的是一个耗时任务，并且执行时间超过了定时任务的频率，会怎么样？<br>2.当一个任务执行的过程中，其他任务会执行吗？<br>说白了，其实我们就是想要知道这个任务执行池是不是个单线程。<br>我写了如下的方法来测试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">@Component</div><div class="line">public class ScheduledTasks &#123;</div><div class="line"></div><div class="line">    private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);</div><div class="line"></div><div class="line">    @Scheduled(fixedRate = 1000)</div><div class="line">    public void printTask() &#123;</div><div class="line">        log.info(&quot;Hello World!&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Scheduled(fixedRate = 5000)</div><div class="line">    public void longTimeTask() &#123;</div><div class="line">        log.info(&quot;Long time task start.&quot;);</div><div class="line">        for (int n = 0; n &lt; Integer.MAX_VALUE / 10; n++) &#123;</div><div class="line">            Math.sin(n);</div><div class="line">        &#125;</div><div class="line">        log.info(&quot;Long time task finish.&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>printTask 就是打印一个日志，任务的调用频率固定是1秒钟。<br>longTimeTask 我通过计算模拟了一个耗时任务，在我的电脑上，执行时间会远远超过5秒钟。任务的调用频率固定是5秒钟。</p>
+<p>运行之后，日志结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">2016-10-05 05:06:37.637  : Hello World!</div><div class="line">2016-10-05 05:06:37.637  : Long time task start.</div><div class="line">2016-10-05 05:07:55.463  : Long time task finish.</div><div class="line">2016-10-05 05:07:55.463  : Hello World!</div><div class="line">2016-10-05 05:07:55.463  : Hello World!</div><div class="line">2016-10-05 05:07:55.463  : Hello World!</div><div class="line">2016-10-05 05:07:55.463  : Hello World!</div><div class="line">2016-10-05 05:07:55.463  : Hello World!</div><div class="line">2016-10-05 05:07:55.463  : Long time task start.</div><div class="line">2016-10-05 05:09:48.793  : Long time task finish.</div><div class="line">2016-10-05 05:09:48.793  : Hello World!</div><div class="line">2016-10-05 05:09:48.793  : Hello World!</div><div class="line">2016-10-05 05:09:48.793  : Hello World!</div><div class="line">2016-10-05 05:09:48.793  : Hello World!</div><div class="line">2016-10-05 05:09:48.793  : Hello World!</div><div class="line">2016-10-05 05:09:48.794  : Long time task start.</div><div class="line">2016-10-05 05:11:20.552  : Long time task finish.</div><div class="line">2016-10-05 05:11:20.552  : Hello World!</div><div class="line">2016-10-05 05:11:20.552  : Hello World!</div><div class="line">2016-10-05 05:11:20.552  : Hello World!</div><div class="line">2016-10-05 05:11:20.552  : Hello World!</div><div class="line">2016-10-05 05:11:20.552  : Hello World!</div><div class="line">2016-10-05 05:11:20.552  : Long time task start.</div><div class="line">......</div></pre></td></tr></table></figure>
+<p>日志结果可以看出，longTimeTask 这个任务执行时间明显超过1分钟。<br>并且当他在执行过程中的时候，其他任务是阻塞状态的，并不会执行。<br>而当 longTimeTask 执行完毕之后，那些晚点的任务一股脑全出来了。</p>
+<p>也就是说，Spring 默认给我们提供的这是个单线程任务池，长时间任务会造成阻塞，任务执行时间是累计计算的。</p>
+<p>其实这个是有说明的，在<code>@EnableScheduling</code>的源码头注释中会看到这样一些信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">By default, will be searching for an associated scheduler definition: either</div><div class="line">a unique &#123;@link org.springframework.scheduling.TaskScheduler&#125; bean in the context,</div><div class="line">or a &#123;@code TaskScheduler&#125; bean named &quot;taskScheduler&quot; otherwise; the same lookup</div><div class="line">will also be performed for a &#123;@link java.util.concurrent.ScheduledExecutorService&#125;</div><div class="line">bean. If neither of the two is resolvable, a local single-threaded default</div><div class="line">scheduler will be created and used within the registrar.</div></pre></td></tr></table></figure>
+<p>如果我们实际的需求，就遇到了超时任务，我又不希望被阻塞，应该怎么办呢？<br>你可以创建一个多线程任务池的实现替换掉 Spring 默认提供的 bean，用你自己的多线程策略。<br>但是我觉得这样可能并不好，因为多线程本身会占用应用资源，即便你使用线程池。</p>
+<p>更合理的实现方式是，你有一个消息队列的服务，把长时间任务放到队列中让专门的服务去处理他。<br>当然，消息队列是另外一个话题了，他有很多可以说的，我们改天再聊。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.takwolf.com/2016/10/05/spring-boot-enable-scheduling/" data-id="cj46g23tp00240q1fjrgsyc3d" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/EnableScheduling/">EnableScheduling</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/15/begin-with-ubuntu-sever/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Ubuntu 初始化配置笔记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/01/see-you-again-nuanqiu/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">再见，暖丘 - See you again</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术/">技术</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Hexo/">Hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/MariaDB/">MariaDB</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Ruby/">Ruby</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Spring-Boot/">Spring Boot</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/Vue-js/">Vue.js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/nginx/">nginx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/npm/">npm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/发现/">发现</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/">杂谈</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/二次元/">二次元</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/作品/">作品</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/创业/">创业</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/吐槽/">吐槽</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/B站/">B站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EnableJpaAuditing/">EnableJpaAuditing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EnableScheduling/">EnableScheduling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GFW/">GFW</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Log/">Log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MariaDB/">MariaDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rails/">Rails</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/">Ruby</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SIP/">SIP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Data/">Spring Data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue-js/">Vue.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/主页/">主页</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/创业/">创业</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/吐槽/">吐槽</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/暖丘/">暖丘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/曲径/">曲径</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科学上网/">科学上网</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义View/">自定义View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/视频播放/">视频播放</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音频播放/">音频播放</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/B站/" style="font-size: 10px;">B站</a> <a href="/tags/EnableJpaAuditing/" style="font-size: 10px;">EnableJpaAuditing</a> <a href="/tags/EnableScheduling/" style="font-size: 10px;">EnableScheduling</a> <a href="/tags/GFW/" style="font-size: 10px;">GFW</a> <a href="/tags/Git/" style="font-size: 12.5px;">Git</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Java/" style="font-size: 17.5px;">Java</a> <a href="/tags/Linux/" style="font-size: 17.5px;">Linux</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/MariaDB/" style="font-size: 10px;">MariaDB</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Rails/" style="font-size: 10px;">Rails</a> <a href="/tags/Redis/" style="font-size: 12.5px;">Redis</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/SIP/" style="font-size: 10px;">SIP</a> <a href="/tags/Spring-Boot/" style="font-size: 15px;">Spring Boot</a> <a href="/tags/Spring-Data/" style="font-size: 10px;">Spring Data</a> <a href="/tags/Vue-js/" style="font-size: 10px;">Vue.js</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/主页/" style="font-size: 10px;">主页</a> <a href="/tags/创业/" style="font-size: 10px;">创业</a> <a href="/tags/吐槽/" style="font-size: 10px;">吐槽</a> <a href="/tags/暖丘/" style="font-size: 10px;">暖丘</a> <a href="/tags/曲径/" style="font-size: 10px;">曲径</a> <a href="/tags/科学上网/" style="font-size: 10px;">科学上网</a> <a href="/tags/自定义View/" style="font-size: 10px;">自定义View</a> <a href="/tags/视频播放/" style="font-size: 10px;">视频播放</a> <a href="/tags/音频播放/" style="font-size: 10px;">音频播放</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/03/05/android-log-wtf/">Android - 关于 Log.wtf()</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/01/npm-config-registry/">npm 修改镜像地址</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/19/setup-nginx-on-ubuntu/">在 Ubuntu 上安装配置 nginx 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/18/setup-redis-on-ubuntu/">在 Ubuntu 上安装 Redis 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/17/setup-mariadb-on-ubuntu/">在 Ubuntu 上安装配置 MariaDB 笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 TakWolf<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
