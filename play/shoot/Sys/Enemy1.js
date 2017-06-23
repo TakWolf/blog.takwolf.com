@@ -63,13 +63,4 @@ Enemy1.prototype.damage = function(arrBomb,isAtOnce) {
         arrBomb.push(new Bomb(this.x,this.y));
     }else{
         this.life -= 1;
-        if(this.life<=0){
-            this.state = "消失";
-            //添加爆炸效果
-            arrBomb.push(new Bomb(this.x,this.y));
-        }
-    }
-};
-
-
-
+        if(this.life

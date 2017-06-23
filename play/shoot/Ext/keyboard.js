@@ -1,4 +1,4 @@
-﻿//按键检测的一个思路
+//按键检测的一个思路
 keyboard = {
     KEY_UP:false,
     KEY_DOWN:false,
