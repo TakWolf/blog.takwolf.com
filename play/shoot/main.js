@@ -72,4 +72,71 @@ e.update = function(dt) {
     //更新背景
     bg.update(dt);
     //更新敌人数组
-    for(var n=0;n
+    for(var n=0;n<arrEnemy.length;n++) {
+        arrEnemy[n].update(dt,player);
+    }
+    //更新玩家
+    player.update(dt,arrEnemy,arrBomb);
+    //移除死亡敌人
+    for(var n=0;n<arrEnemy.length;n++) {
+        if(arrEnemy[n].state == "消失") {
+            arrEnemy.splice(n,1);//删除对象
+            break;
+        }
+    }
+    //更新爆炸数组
+    for(var n=0;n<arrBomb.length;n++) {
+        arrBomb[n].update(dt);
+    }
+    //移除爆炸
+    for(var n=0;n<arrBomb.length;n++) {
+        if(arrBomb[n].state == "消失") {
+            arrBomb.splice(n,1);//删除对象
+            break;
+        }
+    }
+
+};
+
+//=======================================================
+// 屏幕渲染
+//=======================================================
+e.draw = function(dt) {
+
+    //开始渲染
+    this.beginDraw();
+    this.clear("#000000");
+
+    //显示背景
+    bg.draw(this);
+
+    //显示玩家
+    player.draw(this);
+
+    //显示敌人数组
+    for(var n=0;n<arrEnemy.length;n++) {
+        arrEnemy[n].draw(this);
+    }
+    //显示爆炸数组
+    for(var n=0;n<arrBomb.length;n++) {
+        arrBomb[n].draw(this);
+    }
+
+    //参数信息
+    font.draw(this,"enemy:"+arrEnemy.length,400,5);
+    font.draw(this,"bomb:"+arrBomb.length,400,25);
+    font.draw(this,"bullet:"+player.arrBullet.length,400,45);
+    font.draw(this,"fire:"+player.arrFire.length,400,65);
+
+    //显示FPS
+    font.draw(this,"FPS:"+this.getCurrentFps(),10,5);
+
+    //结束渲染
+    this.endDraw();
+
+};
+
+//=======================================================
+// 启动引擎
+//=======================================================
+startEngine(e);

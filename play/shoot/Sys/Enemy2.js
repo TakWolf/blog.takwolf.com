@@ -23,7 +23,24 @@ function Enemy2(x,y) {
  * 更新
  */
 Enemy2.prototype.update = function(dt,player) {
-    if(this.y <player.y-50){ 计算角度="" var="" dx="player.x" -="" this.x;="" dy="player.y" this.y;="" dz="Math.sqrt(dx*dx" +="" dy*dy);="" this.angle="Math.asin(dy/dz)" math.pi="" 2;="" if(dx<0){="" *="-1;" }="" 移动="" this.x="" math.cos(this.angle-math.pi="" 2);="" this.y="" math.sin(this.angle-math.pi="" 消失判断="" if(this.y="">=600+50) {
+    if(this.y <player.y-50){
+        //计算角度
+        var dx = player.x - this.x;
+        var dy = player.y - this.y;
+        var dz = Math.sqrt(dx*dx + dy*dy);
+        this.angle = Math.asin(dy/dz) - Math.PI/2;
+        if(dx<0){
+            this.angle *= -1;
+        }
+    }
+    //移动
+    this.x -= this.speed * Math.cos(this.angle-Math.PI/2);
+    this.y -= this.speed * Math.sin(this.angle-Math.PI/2);
+    this.y += 2;
+
+
+    //消失判断
+    if(this.y>=600+50) {
         this.state = "消失";
     }
     //更新碰撞盒
@@ -58,4 +75,13 @@ Enemy2.prototype.damage = function(arrBomb,isAtOnce) {
         arrBomb.push(new Bomb(this.x,this.y));
     }else{
         this.life -= 1;
-        if(this.life</player.y-50){>
+        if(this.life<=0){
+            this.state = "消失";
+            //添加爆炸效果
+            arrBomb.push(new Bomb(this.x,this.y));
+        }
+    }
+};
+
+
+

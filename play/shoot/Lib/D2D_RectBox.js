@@ -1,4 +1,4 @@
-//=======================================================
+﻿//=======================================================
 //
 // EM-X for HTML5 Canvas - v0.0.3
 //
@@ -145,5 +145,20 @@ D2D_RectBox.prototype.setSize = function(width,height) {
 D2D_RectBox.prototype.testPoint = function(x,y) {
     return (
         x>=this.x-this.originX
-        && x<=this.x-this.originx+this.width &&="" y="">=this.y-this.originY
-        && y</=this.x-this.originx+this.width>
+        && x<=this.x-this.originX+this.width
+        && y>=this.y-this.originY
+        && y<=this.y-this.originY+this.height
+    );
+};
+
+/**
+ * 检测矩形
+ */
+D2D_RectBox.prototype.testRect = function(rectBox) {
+    return (
+        Math.abs((this.x-this.originX+this.width/2)-(rectBox.x-rectBox.originX+rectBox.width/2))
+        <=this.width/2+rectBox.width/2
+        && Math.abs((this.y-this.originY+this.height/2)-(rectBox.y-rectBox.originY+rectBox.height/2))
+        <=this.height/2+rectBox.height/2
+    );
+};
