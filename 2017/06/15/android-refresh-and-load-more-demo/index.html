@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.4.0 -->
+    <script>
+        window.materialVersion = "1.4.0b1"
+        // Delete localstorage with these tags
+        window.oldVersion = [
+            'codestartv1',
+            '1.3.4',
+            '1.4.0'
+        ]
+    </script>
+
+    <!-- Title -->
+    
+    <title>
+        
+            Android 一种简单和优雅的方式实现下拉刷新和加载更多 | 
+        
+        TakWolf &#39;s Blog
+    </title>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+
+
+    <link rel="dns-prefetch" href="https://busuanzi.ibruce.info"/>
+
+
+
+    <link rel="dns-prefetch" href="https://img1.cache.netease.com"/>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#FF9800">
+    <meta name="author" content="TakWolf">
+    <meta name="description" itemprop="description" content="
+老生常谈的问题，但是发现很多人仍然将其视为难题。
+很多实现也很复杂，有人甚至做了一个 SuperRefreshLayout 或者 SuperListView 或者 SuperRecyclerView 来实现。
+其实不需要 Super，使用很少的简介的代码也可以实现。
+最近做了个总结，尝试给出最佳实践。上面是效果图，支持 ListView 和 RecyclerView。
+相关代码在这里：https://github.com/TakWolf/Android-RefreshAndLoadMore-Demo">
+    <meta name="keywords" content="null,Android,下拉刷新,加载更多">
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(key){try{localStorage.removeItem(key)}catch(e){}};lsloader.setLS=function(key,val){try{localStorage.setItem(key,val)}catch(e){}};lsloader.getLS=function(key){var val="";try{val=localStorage.getItem(key)}catch(e){val=""}return val};versionString="/*"+materialVersion+"*/";lsloader.clean=function(){try{var keys=[];for(var i=0;i<localStorage.length;i++){keys.push(localStorage.key(i))}keys.forEach(function(key){var data=lsloader.getLS(key);if(window.oldVersion){var remove=window.oldVersion.reduce(function(p,c){return p||data.indexOf(c)!==-1},false);if(remove){lsloader.removeLS(key)}}})}catch(e){}};lsloader.clean();lsloader.load=function(jsname,jspath,cssonload){cssonload=cssonload||function(){};var code;code=this.getLS(jsname);if(code&&code.indexOf(versionString)===-1){this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}if(code){var versionNumber=code.split(versionString)[0];if(versionNumber!=jspath){console.log("reload:"+jspath);this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}code=code.split(versionString)[1];if(/\.js?.+$/.test(versionNumber)){this.jsRunSequence.push({name:jsname,code:code});this.runjs(jspath,jsname,code)}else{document.getElementById(jsname).appendChild(document.createTextNode(code));cssonload()}}else{this.requestResource(jsname,jspath,cssonload)}};lsloader.requestResource=function(name,path,cssonload){var that=this;if(/\.js?.+$/.test(path)){this.iojs(path,name,function(path,name,code){that.setLS(name,path+versionString+code);that.runjs(path,name,code)})}else if(/\.css?.+$/.test(path)){this.iocss(path,name,function(code){document.getElementById(name).appendChild(document.createTextNode(code));that.setLS(name,path+versionString+code)},cssonload)}};lsloader.iojs=function(path,jsname,callback){var that=this;that.jsRunSequence.push({name:jsname,code:""});try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(path,jsname,xhr.response);return}}that.jsfallback(path,jsname)}};xhr.send(null)}catch(e){that.jsfallback(path,jsname)}};lsloader.iocss=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.iofonts=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.runjs=function(path,name,code){if(!!name&&!!code){for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code=code}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var script=document.createElement("script");script.appendChild(document.createTextNode(this.jsRunSequence[0].code));script.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(script);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var that=this;var script=document.createElement("script");script.src=this.jsRunSequence[0].path;script.type="text/javascript";this.jsRunSequence[0].status="loading";script.onload=function(){that.jsRunSequence.shift();if(that.jsRunSequence.length>0){that.runjs()}};document.body.appendChild(script)}};lsloader.tagLoad=function(path,name){this.jsRunSequence.push({name:name,code:"",path:path,status:"failed"});this.runjs()};lsloader.jsfallback=function(path,name){if(!!this.jsnamemap[name]){return}else{this.jsnamemap[name]=name}for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code="";this.jsRunSequence[k].status="failed";this.jsRunSequence[k].path=path}}this.runjs()};lsloader.cssfallback=function(path,name,cssonload){if(!!this.cssnamemap[name]){return}else{this.cssnamemap[name]=1}var link=document.createElement("link");link.type="text/css";link.href=path;link.rel="stylesheet";link.onload=link.onerror=cssonload;var root=document.getElementsByTagName("script")[0];root.parentNode.insertBefore(link,root)};lsloader.runInlineScript=function(scriptId,codeId){var code=document.getElementById(codeId).innerText;this.jsRunSequence.push({name:scriptId,code:code});this.runjs()};lsloader.loadCombo=function(jslist){var updateList="";var requestingModules={};for(var k in jslist){var LS=this.getLS(jslist[k].name);if(!!LS){var version=LS.split(versionString)[0];var code=LS.split(versionString)[1]}else{var version=""}if(version==jslist[k].path){this.jsRunSequence.push({name:jslist[k].name,code:code,path:jslist[k].path})}else{this.jsRunSequence.push({name:jslist[k].name,code:null,path:jslist[k].path,status:"comboloading"});requestingModules[jslist[k].name]=true;updateList+=(updateList==""?"":";")+jslist[k].path}}var that=this;if(!!updateList){var xhr=new XMLHttpRequest;xhr.open("get",combo+updateList,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){that.runCombo(xhr.response,requestingModules);return}}else{for(var i in that.jsRunSequence){if(requestingModules[that.jsRunSequence[i].name]){that.jsRunSequence[i].status="failed"}}that.runjs()}}};xhr.send(null)}this.runjs()};lsloader.runCombo=function(comboCode,requestingModules){comboCode=comboCode.split("/*combojs*/");comboCode.shift();for(var k in this.jsRunSequence){if(!!requestingModules[this.jsRunSequence[k].name]&&!!comboCode[0]){this.jsRunSequence[k].status="comboJS";this.jsRunSequence[k].code=comboCode[0];this.setLS(this.jsRunSequence[k].name,this.jsRunSequence[k].path+versionString+comboCode[0]);comboCode.shift()}}this.runjs()}})();</script>
+
+    <!--iOS -->
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="TakWolf &#39;s Blog">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- RSS -->
+    
+    
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import CSS -->
+    
+        <style id="material_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_css","/css/material.min.css?Z7a72R1E4SxzBKR/WGctOA==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","/css/style.min.css?oCSEO3ST+aEypEwttTDI9g==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+
+        
+
+    
+
+    
+        
+            <link rel="preload" href="/css/fontawesome.min.css" as="style" onload="this.rel='stylesheet'">
+        
+    
+
+    <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    overflow-x: hidden !important;
+  }
+
+  a {
+    color: #FF9800;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #FF9800 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #FF9800 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #FF9800 !important;
+  }
+
+  .toTop {
+    background: #FF9800 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #FF9800;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #FF9800;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #FF9800;
+  }
+
+  .post-toc a:hover {
+    color: #FF9800;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body {
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text {
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+<!-- Import Roboto -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+
+
+<!-- Import Material Icon -->
+
+    <style>
+        @font-face {
+            font-family: 'Material Icons';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Material Icons'),
+            local('MaterialIcons-Regular'),
+            url(/fonts/MaterialIcons-Regular.woff2) format('woff2'),
+            url(/fonts/MaterialIcons-Regular.woff) format('woff'),
+            url(/fonts/MaterialIcons-Regular.ttf) format('truetype');
+        }
+    </style>
+
+
+
+
+    
+
+    <!-- Import jQuery -->
+    
+        <script>lsloader.load("jq_js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==")</script>
+    
+
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://blog.takwolf.com">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Android 一种简单和优雅的方式实现下拉刷新和加载更多 | TakWolf &#39;s Blog">
+    <meta property="og:image" content="/img/favicon.png" />
+    <meta property="og:description" content="
+老生常谈的问题，但是发现很多人仍然将其视为难题。
+很多实现也很复杂，有人甚至做了一个 SuperRefreshLayout 或者 SuperListView 或者 SuperRecyclerView 来实现。
+其实不需要 Super，使用很少的简介的代码也可以实现。
+最近做了个总结，尝试给出最佳实践。上面是效果图，支持 ListView 和 RecyclerView。
+相关代码在这里：https://github.com/TakWolf/Android-RefreshAndLoadMore-Demo">
+    <meta property="og:article:tag" content="Android"> <meta property="og:article:tag" content="下拉刷新"> <meta property="og:article:tag" content="加载更多"> 
+
+    
+        <meta property="article:published_time" content="Thu Jun 15 2017 00:00:00 GMT+0800" />
+        <meta property="article:modified_time" content="Thu Jun 29 2017 15:04:58 GMT+0800" />
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:title" content="Android 一种简单和优雅的方式实现下拉刷新和加载更多 | TakWolf &#39;s Blog">
+    <meta name="twitter:description" content="
+老生常谈的问题，但是发现很多人仍然将其视为难题。
+很多实现也很复杂，有人甚至做了一个 SuperRefreshLayout 或者 SuperListView 或者 SuperRecyclerView 来实现。
+其实不需要 Super，使用很少的简介的代码也可以实现。
+最近做了个总结，尝试给出最佳实践。上面是效果图，支持 ListView 和 RecyclerView。
+相关代码在这里：https://github.com/TakWolf/Android-RefreshAndLoadMore-Demo">
+    <meta name="twitter:image" content="/img/favicon.png">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="http://blog.takwolf.com" />
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="http://blog.takwolf.com/2017/06/15/android-refresh-and-load-more-demo/index.html" />
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "http://blog.takwolf.com/2017/06/15/android-refresh-and-load-more-demo/index.html",
+    "headline": "Android 一种简单和优雅的方式实现下拉刷新和加载更多",
+    "datePublished": "Thu Jun 15 2017 00:00:00 GMT+0800",
+    "dateModified": "Thu Jun 29 2017 15:04:58 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "TakWolf",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/avatar.png"
+        },
+        "description": "Anima Game Code Repeat"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "TakWolf &#39;s Blog",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/favicon.png"
+        }
+    },
+    "keywords": ",Android,下拉刷新,加载更多null",
+    "description": "
+老生常谈的问题，但是发现很多人仍然将其视为难题。
+很多实现也很复杂，有人甚至做了一个 SuperRefreshLayout 或者 SuperListView 或者 SuperRecyclerView 来实现。
+其实不需要 Super，使用很少的简介的代码也可以实现。
+最近做了个总结，尝试给出最佳实践。上面是效果图，支持 ListView 和 RecyclerView。
+相关代码在这里：https://github.com/TakWolf/Android-RefreshAndLoadMore-Demo",
+}
+</script>
+
+
+    
+
+    <!-- Analytics -->
+    
+
+    <!-- Custom Head -->
+    
+
+</head>
+
+
+    
+        <body id="scheme-Isolation" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+                    <!-- Isolation Header -->
+                    <header class="header">
+    <div class="header-wrapper">
+        <!-- Header Copyright -->
+        <div class="header-copyright">
+            <div class="header-site">
+                ©&nbsp;
+                <script type="text/javascript">
+                    var fd = new Date();
+                    document.write(fd.getFullYear());
+                </script>
+                &nbsp;TakWolf 's Blog
+            </div>
+            <!--
+            I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+            It will not impact the appearance and can give developers a lot of support :)
+
+            很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+            它不会影响美观并可以给开发者很大的支持。 :)
+            -->
+            <div>
+                Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a>
+                <br>
+                Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a>
+            </div>
+        </div>
+
+        <!-- Header Title -->
+        <span class="header-title header-item">
+            <a href="/" title="TakWolf &#39;s Blog">
+                TakWolf &#39;s Blog
+            </a>
+        </span>
+
+        <p class="header-slogan header-item">
+        
+            
+                Anima Game Code Repeat
+            
+        
+        </p>
+
+        <!-- Header Nav -->
+        <nav class="header-nav header-item">
+            <span class="header-nav-item">
+                <a href="/" title="Home">
+                    <span>主页</span>
+                </a>
+            </span>
+
+            <!-- Pages  -->
+            
+                <span class="header-nav-item">
+                    <a href="/about" title="关于">
+                        <span>关于</span>
+                    </a>
+                </span>
+            
+                <span class="header-nav-item">
+                    <a href="/play" title="好玩">
+                        <span>好玩</span>
+                    </a>
+                </span>
+            
+            
+        </nav>
+
+        <!-- Header SNS -->
+        <div class="header-item header-sns_list">
+    <!-- Twitter -->
+    
+        <a href="https://twitter.com/takgdx" target="_blank">
+            <i class="fa fa-twitter fa-lg" aria-hidden="true"></i>
+        </a>
+    
+
+    <!-- Facebook -->
+    
+        <a href="https://www.facebook.com/hero.takwolf" target="_blank">
+            <i class="fa fa-facebook fa-lg" aria-hidden="true"></i>
+        </a>
+    
+
+    <!-- Google + -->
+    
+        <a href="https://plus.google.com/u/0/101562106204171844130/posts" target="_blank">
+            <i class="fa fa-google-plus fa-lg" aria-hidden="true"></i>
+        </a>
+    
+
+    <!-- Weibo -->
+    
+        <a href="http://weibo.com/takwolf" target="_blank">
+            <i class="fa fa-weibo fa-lg" aria-hidden="true"></i>
+        </a>
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/takwolf" target="_blank">
+            <i class="fa fa-github fa-lg" aria-hidden="true"></i>
+        </a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+    </div>
+</header>
+
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+
+                    <!-- Post TOC -->
+
+    
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+
+
+    <!-- Isolation Post Header -->
+    <!-- Post thumbnail -->
+    
+        <!-- Post Header Info -->
+        <div class="post-header_info without-thumbnail">
+            <!-- Author Avatar & Name -->
+            <img src="/img/avatar.png" class="avatar-img" width="44px" height="44px" alt="TakWolf's avatar">
+            <span class="name-span">TakWolf</span>
+        </div>
+
+        <!-- Null Thumbnail -->
+        <div class="post_thumbnail-null">
+    
+        </div>
+
+
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+
+    
+        <div class="post-content_wrapper">
+            <p class="post-title">
+                Android 一种简单和优雅的方式实现下拉刷新和加载更多
+            </p>
+            <p><img src="/img/android-refresh-and-load-more-demo-01.gif" alt=""></p>
+<p>老生常谈的问题，但是发现很多人仍然将其视为难题。</p>
+<p>很多实现也很复杂，有人甚至做了一个 SuperRefreshLayout 或者 SuperListView 或者 SuperRecyclerView 来实现。</p>
+<p>其实不需要 Super，使用很少的简介的代码也可以实现。</p>
+<p>最近做了个总结，尝试给出最佳实践。上面是效果图，支持 ListView 和 RecyclerView。</p>
+<p>相关代码在这里：<a href="https://github.com/TakWolf/Android-RefreshAndLoadMore-Demo" target="_blank" rel="external">https://github.com/TakWolf/Android-RefreshAndLoadMore-Demo</a></p>
+<a id="more"></a>
+<p>这个方案来源于我自己的开发实践，个人认为已接近最佳实践，简单且优雅。</p>
+<p>要注意的是，这篇文章介绍的是如何用现有资源快速实现一个下拉刷新和加载更多分页效果，</p>
+<p>而不是如何去实现或者自定义一个下拉刷新控件。那是另外一个话题，咱们改天再聊。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>我们的原则是，尽可能使用现成的资源去实现。</p>
+<p>即便如此，我们仍然使用了下面的第三方依赖，但是注意，这些依赖都不是必须的：</p>
+<p>1.<a href="https://github.com/pnikosis/materialish-progress" target="_blank" rel="external">Material-ish Progress</a></p>
+<p><img src="https://github.com/pnikosis/materialish-progress/raw/master/spinningwheel.gif" alt=""></p>
+<p>一个可以兼容低版本的 Material Design 风格进度条样式。我希望可以保证所有版本的 Android 都要良好的 Material Design 体验。</p>
+<p>这不是必须的，你可以替换为默认的进度条控件或者你自己的控件，除了样式之外，不会有其他问题。</p>
+<p>2.<a href="https://github.com/TakWolf/Android-HeaderAndFooterRecyclerView" target="_blank" rel="external">Android-HeaderAndFooterRecyclerView</a></p>
+<p>这是我写的另外一个组件，它可以扩充 RecyclerView，让其支持 HeaderView 和 FooterView。我们在实现加载更多的时候需要这个特性。</p>
+<p>这个组件使用非常简单，替换默认的 RecyclerView 就可以了。接口与 ListView 添加头部的方式类似。不需要修改其他任何东西（例如你的业务Adapter）。</p>
+<p>仅此而已，非侵入式，没有额外的东西。</p>
+<p>这不是必须的，你可以有你自己的方式实现这个功能。这不影响我们整篇文章的思路。但是我很推荐你去试试它，也许你会觉得不错呢。</p>
+<p>3.<a href="https://github.com/JakeWharton/butterknife" target="_blank" rel="external">Butter Knife</a></p>
+<p>通过注解的方式快速实现控件绑定。</p>
+<p>这不是必须的，你可以使用 findViewById()，效果是一样的。不过我推荐你去看看，真的很方便。</p>
+<h2 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h2><p>下拉刷新比较容易实现，因为 Android 官方的 support 组件中就实现了一个下拉刷新组件：SwipeRefreshLayout</p>
+<p>支持 ListView 和 RecyclerView，符合 Material Design，使用简单，性能良好。</p>
+<p>港真，除非你遇到一个变态的产品经理，否则有啥理由不使用这个呢？</p>
+<p>下拉刷新的实现，大家的方式分歧比较大，很多人尝试在父布局上面下功夫。</p>
+<p>我个人觉得最简单的实现是在列表的最后添加一个 FooterView，用它来显示加载动画。同时监听列表滚动，检测滑动到底部的时候，触发加载动作。</p>
+<p>这样的好处是，不在需要复杂的去实现一个自定义控件（包括去实现那些复杂的手势处理），也没有一些特殊情况下的问题（比如首页加载不足一屏，我们下面会讲）。</p>
+<h2 id="关于-ListView"><a href="#关于-ListView" class="headerlink" title="关于 ListView"></a>关于 ListView</h2><p>现在 RecyclerView 十分流行，但是有的时候我们可能还是需要用到 ListView 的。其实这无所谓，思路是一样的。</p>
+<p>我对 ListView 做了一些小扩展，让他支持 addOnScrollListener 接口。</p>
+<p>因为默认只有 setOnScrollListener，这表示我们只能设置一个监听器，我们不确定其他地方会不会也用到滚动监听，如果有的话就会造成冲突。</p>
+<p>如果你确保不会造成冲突，你可以忽略这一部分的实现。你直接使用 setOnScrollListener 就好了。</p>
+<p>实现非常简单，代码如下：</p>
+<p><a href="https://github.com/TakWolf/Android-RefreshAndLoadMore-Demo/blob/master/app/src/main/java/com/takwolf/android/refreshandloadmore/demo/ui/widget/ListView.java" target="_blank" rel="external">ListView.java</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListView</span> <span class="keyword">extends</span> <span class="title">android</span>.<span class="title">widget</span>.<span class="title">ListView</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> OnScrollListenerProxy onScrollListenerProxy = <span class="keyword">new</span> OnScrollListenerProxy();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ListView</span><span class="params">(@NonNull Context context)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(context);</div><div class="line">        init();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ListView</span><span class="params">(@NonNull Context context, @Nullable AttributeSet attrs)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(context, attrs);</div><div class="line">        init();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ListView</span><span class="params">(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(context, attrs, defStyleAttr);</div><div class="line">        init();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@TargetApi</span>(Build.VERSION_CODES.LOLLIPOP)</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ListView</span><span class="params">(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes <span class="keyword">int</span> defStyleAttr, @StyleRes <span class="keyword">int</span> defStyleRes)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(context, attrs, defStyleAttr, defStyleRes);</div><div class="line">        init();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.setOnScrollListener(onScrollListenerProxy);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="meta">@Deprecated</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOnScrollListener</span><span class="params">(OnScrollListener listener)</span> </span>&#123;</div><div class="line">        onScrollListenerProxy.setOnScrollListener(listener);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addOnScrollListener</span><span class="params">(OnScrollListener listener)</span> </span>&#123;</div><div class="line">        onScrollListenerProxy.addOnScrollListener(listener);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeOnScrollListener</span><span class="params">(OnScrollListener listener)</span> </span>&#123;</div><div class="line">        onScrollListenerProxy.removeOnScrollListener(listener);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clearOnScrollListeners</span><span class="params">()</span> </span>&#123;</div><div class="line">        onScrollListenerProxy.clearOnScrollListeners();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">OnScrollListenerProxy</span> <span class="keyword">implements</span> <span class="title">OnScrollListener</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">private</span> OnScrollListener onScrollListener;</div><div class="line">        <span class="keyword">private</span> List&lt;OnScrollListener&gt; onScrollListenerList;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrollStateChanged</span><span class="params">(AbsListView view, <span class="keyword">int</span> scrollState)</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (onScrollListener != <span class="keyword">null</span>) &#123;</div><div class="line">                onScrollListener.onScrollStateChanged(view, scrollState);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (onScrollListenerList != <span class="keyword">null</span> &amp;&amp; onScrollListenerList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">for</span> (OnScrollListener onScrollListener : onScrollListenerList) &#123;</div><div class="line">                    onScrollListener.onScrollStateChanged(view, scrollState);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScroll</span><span class="params">(AbsListView view, <span class="keyword">int</span> firstVisibleItem, <span class="keyword">int</span> visibleItemCount, <span class="keyword">int</span> totalItemCount)</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (onScrollListener != <span class="keyword">null</span>) &#123;</div><div class="line">                onScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (onScrollListenerList != <span class="keyword">null</span> &amp;&amp; onScrollListenerList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">for</span> (OnScrollListener onScrollListener : onScrollListenerList) &#123;</div><div class="line">                    onScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">void</span> <span class="title">setOnScrollListener</span><span class="params">(OnScrollListener listener)</span> </span>&#123;</div><div class="line">            onScrollListener = listener;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">void</span> <span class="title">addOnScrollListener</span><span class="params">(OnScrollListener listener)</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (onScrollListenerList == <span class="keyword">null</span>) &#123;</div><div class="line">                onScrollListenerList = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">            &#125;</div><div class="line">            onScrollListenerList.add(listener);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">void</span> <span class="title">removeOnScrollListener</span><span class="params">(OnScrollListener listener)</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (onScrollListenerList != <span class="keyword">null</span>) &#123;</div><div class="line">                onScrollListenerList.remove(listener);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">void</span> <span class="title">clearOnScrollListeners</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (onScrollListenerList != <span class="keyword">null</span>) &#123;</div><div class="line">                onScrollListenerList.clear();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代理模式，对监听器做了一个代理。没什么复杂的地方。我觉得大家都应该看的懂。</p>
+<p>要注意的是，你的布局XML中的控件引用，要引用这个类，而不是默认的 ListView。</p>
+<h2 id="关于-RecyclerView"><a href="#关于-RecyclerView" class="headerlink" title="关于 RecyclerView"></a>关于 RecyclerView</h2><p>默认 RecyclerView 并不支持添加 FooterView，因为我们需要一点微小的工作来扩展支持这个特性。</p>
+<p>上面提到过，我们使用了 <a href="https://github.com/TakWolf/Android-HeaderAndFooterRecyclerView" target="_blank" rel="external">Android-HeaderAndFooterRecyclerView</a> 这个库。</p>
+<p>使用方式大概是这样的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">HeaderAndFooterRecyclerView recyclerView = (HeaderAndFooterRecyclerView) findViewById(R.id.recycler_view);</div><div class="line">recyclerView.setLayoutManager(<span class="keyword">new</span> LinearLayoutManager(context));</div><div class="line">recyclerView.setAdapter(adapter);</div><div class="line"></div><div class="line">View footerView = LayoutInflater.from(context).inflate(R.layout.footer, recyclerView.getFooterContainer(), <span class="keyword">false</span>);</div><div class="line">recyclerView.addFooterView(footerView);</div></pre></td></tr></table></figure>
+<p>非常简单对吗，跟 ListView 的使用方式是一样的。</p>
+<p>简单明了不多余，我就喜欢这样的。</p>
+<h2 id="下拉刷新-SwipeRefreshLayout"><a href="#下拉刷新-SwipeRefreshLayout" class="headerlink" title="下拉刷新 SwipeRefreshLayout"></a>下拉刷新 SwipeRefreshLayout</h2><p>我们复习一下下拉刷新的使用方法，先给出基本布局，使用 ListView 应该是这样的：</p>
+<p><a href="https://github.com/TakWolf/Android-RefreshAndLoadMore-Demo/blob/master/app/src/main/res/layout/activity_list_view.xml" target="_blank" rel="external">activity_list_view.xml</a></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">android.support.v4.widget.SwipeRefreshLayout</span></span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/refresh_layout"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">com.takwolf.android.refreshandloadmore.demo.ui.widget.ListView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/list_view"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:listSelector</span>=<span class="string">"@android:color/transparent"</span></div><div class="line">        <span class="attr">android:cacheColorHint</span>=<span class="string">"@android:color/transparent"</span></div><div class="line">        <span class="attr">android:divider</span>=<span class="string">"@android:color/transparent"</span> /&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">android.support.v4.widget.SwipeRefreshLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>而 RecyclerView 应该是这样的：</p>
+<p><a href="https://github.com/TakWolf/Android-RefreshAndLoadMore-Demo/blob/master/app/src/main/res/layout/activity_recycler_view.xml" target="_blank" rel="external">activity_recycler_view.xml</a></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">android.support.v4.widget.SwipeRefreshLayout</span></span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/refresh_layout"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">com.takwolf.android.hfrecyclerview.HeaderAndFooterRecyclerView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/recycler_view"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span> /&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">android.support.v4.widget.SwipeRefreshLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>很简单对吗，将 SwipeRefreshLayout 作为父控件包裹你的列表控件，就可以了。我觉得大家都会用。</p>
+<p>在代码中是这样的：</p>
+<p><a href="https://github.com/TakWolf/Android-RefreshAndLoadMore-Demo/blob/master/app/src/main/java/com/takwolf/android/refreshandloadmore/demo/ui/activity/ListViewDemoActivity.java" target="_blank" rel="external">ListViewDemoActivity.java</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListViewDemoActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> <span class="keyword">implements</span> <span class="title">SwipeRefreshLayout</span>.<span class="title">OnRefreshListener</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">// 一些其他的代码</span></div><div class="line"></div><div class="line">    <span class="meta">@BindView</span>(R.id.refresh_layout)</div><div class="line">    SwipeRefreshLayout refreshLayout;</div><div class="line"></div><div class="line">    <span class="comment">// 一些其他的代码</span></div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_list_view);</div><div class="line">        ButterKnife.bind(<span class="keyword">this</span>);</div><div class="line"></div><div class="line">        <span class="comment">// 一些其他的代码</span></div><div class="line"></div><div class="line">        refreshLayout.setColorSchemeResources(R.color.color_accent);</div><div class="line">        refreshLayout.setOnRefreshListener(<span class="keyword">this</span>);</div><div class="line">        refreshLayout.setRefreshing(<span class="keyword">true</span>);</div><div class="line">        onRefresh();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRefresh</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// 这里用 handler 模拟了一个异步请求</span></div><div class="line">        HandlerUtils.handler.postDelayed(<span class="keyword">new</span> Runnable() &#123;</div><div class="line"></div><div class="line">              <span class="meta">@Override</span></div><div class="line">              <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                  refreshLayout.setRefreshing(<span class="keyword">false</span>);</div><div class="line">              &#125;</div><div class="line"></div><div class="line">        &#125;, <span class="number">1000</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>很简单，没啥陌生的东西，大家应该都是这么用的。</p>
+<p>有几点注意：</p>
+<ol>
+<li><p>我们用了 Butter Knife 来绑定控件（@BindView、ButterKnife.bind），这不是必须的，你可以手动 findViewById</p>
+</li>
+<li><p>我们直接在 onCreate 中就设置下拉刷新的状态为加载状态，并手动调用了 onRefresh 函数。之前的版本，如果直接在 onCreate 里面设置状态，动画是会有 BUG 的（进度指示器不显示），但是我目前使用最新版（support 25.3.1），似乎修复了这个问题，就不需要再去做兼容了。</p>
+</li>
+</ol>
+<p>下拉刷新就是这么简单。</p>
+<h2 id="加载更多-LoadMoreFooter"><a href="#加载更多-LoadMoreFooter" class="headerlink" title="加载更多 LoadMoreFooter"></a>加载更多 LoadMoreFooter</h2><p>重点来了，大家注意。</p>
+<p>加载更多要考虑的东西比较多，主要有这么几个：</p>
+<h3 id="滚动到底部的监听"><a href="#滚动到底部的监听" class="headerlink" title="滚动到底部的监听"></a>滚动到底部的监听</h3><p>我们需要检测列表是否滚动到底部，如果滚动到底部，我们要触发加载更多的动作。</p>
+<p>ListView 中我们这样去判断：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// addOnScrollListener 这个接口是我们扩展的</span></div><div class="line">listView.addOnScrollListener(<span class="keyword">new</span> AbsListView.OnScrollListener() &#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrollStateChanged</span><span class="params">(AbsListView view, <span class="keyword">int</span> scrollState)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (view.getLastVisiblePosition() == view.getCount() - <span class="number">1</span>) &#123;</div><div class="line">            <span class="comment">// 原理：屏幕中最后显示的内个 item 是数据源位置的最后一个</span></div><div class="line">            <span class="comment">// 那么就说明已经滑动到底部了</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScroll</span><span class="params">(AbsListView view, <span class="keyword">int</span> firstVisibleItem, <span class="keyword">int</span> visibleItemCount, <span class="keyword">int</span> totalItemCount)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (view.getLastVisiblePosition() == view.getCount() - <span class="number">1</span>) &#123;</div><div class="line">            <span class="comment">// 和上面同理</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>RecyclerView 中我们这样判断：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">recyclerView.addOnScrollListener(<span class="keyword">new</span> RecyclerView.OnScrollListener() &#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrollStateChanged</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> newState)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (!ViewCompat.canScrollVertically(recyclerView, <span class="number">1</span>)) &#123;</div><div class="line">            <span class="comment">// ViewCompat 是 support 中提供的一个工具方法</span></div><div class="line">            <span class="comment">// ViewCompat.canScrollVertically(View v, int direction) 可以用来检测</span></div><div class="line">            <span class="comment">// 某个控件垂直方向上是不是可以继续滚动</span></div><div class="line">            <span class="comment">// 第二个参数 direction 如果 &gt; 0，则检测的是向下的方向</span></div><div class="line">            <span class="comment">// 如果这个函数返回 false，就说明已经到底部了</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrolled</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> dx, <span class="keyword">int</span> dy)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (!ViewCompat.canScrollVertically(recyclerView, <span class="number">1</span>)) &#123;</div><div class="line">            <span class="comment">// 和上面同理</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="不同的状态"><a href="#不同的状态" class="headerlink" title="不同的状态"></a>不同的状态</h3><p>我们仔细来考虑，加载更多其实有这么几种状态，分别为：</p>
+<ol>
+<li><p>不可用状态（STATE_DISABLED）：第一次下拉刷新还没成功的情况下，这时候是不能够加载更多的。</p>
+</li>
+<li><p>可以触发加载的预备状态（STATE_ENDLESS）：这时如果监听滚动到底部，则触发加载。</p>
+</li>
+<li><p>加载中（STATE_LOADING）：正在请求数据中，转菊花。</p>
+</li>
+<li><p>加载失败了（STATE_FAILED）：网络错误或者啥错误，数据请求没成功。这里其实应该给一个类似“加载失败，点击重试”的文案，用户可以通过点击或者重新滚动到底部再次触发加载。</p>
+</li>
+<li><p>加载完了，没有更多数据啦（STATE_FINISHED）：已经加载到最后一页了，之后没有数据了，也就不在需要触发加载更多了。</p>
+</li>
+</ol>
+<p>总体来说，基本上就上面5中状态，在网络请求结束的时候，我们根据情况，设置不同的状态。</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><p>考虑上面两个问题，给出下面的实现。</p>
+<p>首先是布局：</p>
+<p><a href="https://github.com/TakWolf/Android-RefreshAndLoadMore-Demo/blob/master/app/src/main/res/layout/footer_load_more.xml" target="_blank" rel="external">footer_load_more.xml</a></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">FrameLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></div><div class="line">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">com.pnikosis.materialishprogress.ProgressWheel</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/progress_wheel"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"32dp"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"32dp"</span></div><div class="line">        <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></div><div class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"16dp"</span></div><div class="line">        <span class="attr">android:visibility</span>=<span class="string">"invisible"</span></div><div class="line">        <span class="attr">app:matProg_barColor</span>=<span class="string">"?attr/colorAccent"</span></div><div class="line">        <span class="attr">app:matProg_progressIndeterminate</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">app:matProg_barWidth</span>=<span class="string">"3dp"</span></div><div class="line">        <span class="attr">tools:visibility</span>=<span class="string">"visible"</span> /&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/tv_text"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"64dp"</span></div><div class="line">        <span class="attr">android:textColor</span>=<span class="string">"?android:attr/textColorSecondary"</span></div><div class="line">        <span class="attr">android:textSize</span>=<span class="string">"14sp"</span></div><div class="line">        <span class="attr">android:gravity</span>=<span class="string">"center"</span></div><div class="line">        <span class="attr">android:background</span>=<span class="string">"?attr/selectableItemBackground"</span></div><div class="line">        <span class="attr">android:visibility</span>=<span class="string">"invisible"</span></div><div class="line">        <span class="attr">tools:text</span>=<span class="string">"加载状态"</span></div><div class="line">        <span class="attr">tools:visibility</span>=<span class="string">"visible"</span> /&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">FrameLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>一个文本框，一个进度指示器，用这两个根据不同的状态显示不同的 UI 类型。</p>
+<p>Footer 类这样实现：</p>
+<p><a href="https://github.com/TakWolf/Android-RefreshAndLoadMore-Demo/blob/master/app/src/main/java/com/takwolf/android/refreshandloadmore/demo/ui/viewholder/LoadMoreFooter.java" target="_blank" rel="external">LoadMoreFooter.java</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoadMoreFooter</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> STATE_DISABLED = <span class="number">0</span>;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> STATE_LOADING = <span class="number">1</span>;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> STATE_FINISHED = <span class="number">2</span>;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> STATE_ENDLESS = <span class="number">3</span>;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> STATE_FAILED = <span class="number">4</span>;</div><div class="line"></div><div class="line">    <span class="meta">@IntDef</span>(&#123;STATE_DISABLED, STATE_LOADING, STATE_FINISHED, STATE_ENDLESS, STATE_FAILED&#125;)</div><div class="line">    <span class="meta">@Retention</span>(RetentionPolicy.SOURCE)</div><div class="line">    <span class="keyword">public</span> <span class="meta">@interface</span> State &#123;&#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OnLoadMoreListener</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">void</span> <span class="title">onLoadMore</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@BindView</span>(R.id.progress_wheel)</div><div class="line">    ProgressWheel progressWheel;</div><div class="line"></div><div class="line">    <span class="meta">@BindView</span>(R.id.tv_text)</div><div class="line">    TextView tvText;</div><div class="line"></div><div class="line">    <span class="meta">@State</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> state = STATE_DISABLED;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> OnLoadMoreListener loadMoreListener;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LoadMoreFooter</span><span class="params">(@NonNull Context context, @NonNull HeaderAndFooterRecyclerView recyclerView, @NonNull OnLoadMoreListener loadMoreListener)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.loadMoreListener = loadMoreListener;</div><div class="line">        View footerView = LayoutInflater.from(context).inflate(R.layout.footer_load_more, recyclerView.getFooterContainer(), <span class="keyword">false</span>);</div><div class="line">        recyclerView.addFooterView(footerView);</div><div class="line">        ButterKnife.bind(<span class="keyword">this</span>, footerView);</div><div class="line">        recyclerView.addOnScrollListener(<span class="keyword">new</span> RecyclerView.OnScrollListener() &#123;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrollStateChanged</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> newState)</span> </span>&#123;</div><div class="line">                <span class="keyword">if</span> (!ViewCompat.canScrollVertically(recyclerView, <span class="number">1</span>)) &#123;</div><div class="line">                    checkLoadMore();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrolled</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> dx, <span class="keyword">int</span> dy)</span> </span>&#123;</div><div class="line">                <span class="keyword">if</span> (!ViewCompat.canScrollVertically(recyclerView, <span class="number">1</span>)) &#123;</div><div class="line">                    checkLoadMore();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LoadMoreFooter</span><span class="params">(@NonNull Context context, @NonNull ListView listView, @NonNull OnLoadMoreListener loadMoreListener)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.loadMoreListener = loadMoreListener;</div><div class="line">        View footerView = LayoutInflater.from(context).inflate(R.layout.footer_load_more, listView, <span class="keyword">false</span>);</div><div class="line">        listView.addFooterView(footerView, <span class="keyword">null</span>, <span class="keyword">false</span>);</div><div class="line">        ButterKnife.bind(<span class="keyword">this</span>, footerView);</div><div class="line">        listView.addOnScrollListener(<span class="keyword">new</span> AbsListView.OnScrollListener() &#123;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrollStateChanged</span><span class="params">(AbsListView view, <span class="keyword">int</span> scrollState)</span> </span>&#123;</div><div class="line">                <span class="keyword">if</span> (view.getLastVisiblePosition() == view.getCount() - <span class="number">1</span>) &#123;</div><div class="line">                    checkLoadMore();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScroll</span><span class="params">(AbsListView view, <span class="keyword">int</span> firstVisibleItem, <span class="keyword">int</span> visibleItemCount, <span class="keyword">int</span> totalItemCount)</span> </span>&#123;</div><div class="line">                <span class="keyword">if</span> (view.getLastVisiblePosition() == view.getCount() - <span class="number">1</span>) &#123;</div><div class="line">                    checkLoadMore();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@State</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getState</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> state;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setState</span><span class="params">(@State <span class="keyword">int</span> state)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.state != state) &#123;</div><div class="line">            <span class="keyword">this</span>.state = state;</div><div class="line">            <span class="keyword">switch</span> (state) &#123;</div><div class="line">                <span class="keyword">case</span> STATE_DISABLED:</div><div class="line">                    progressWheel.setVisibility(View.INVISIBLE);</div><div class="line">                    progressWheel.stopSpinning();</div><div class="line">                    tvText.setVisibility(View.INVISIBLE);</div><div class="line">                    tvText.setText(<span class="keyword">null</span>);</div><div class="line">                    tvText.setClickable(<span class="keyword">false</span>);</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> STATE_LOADING:</div><div class="line">                    progressWheel.setVisibility(View.VISIBLE);</div><div class="line">                    progressWheel.spin();</div><div class="line">                    tvText.setVisibility(View.INVISIBLE);</div><div class="line">                    tvText.setText(<span class="keyword">null</span>);</div><div class="line">                    tvText.setClickable(<span class="keyword">false</span>);</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> STATE_FINISHED:</div><div class="line">                    progressWheel.setVisibility(View.INVISIBLE);</div><div class="line">                    progressWheel.stopSpinning();</div><div class="line">                    tvText.setVisibility(View.VISIBLE);</div><div class="line">                    tvText.setText(R.string.load_more_finished);</div><div class="line">                    tvText.setClickable(<span class="keyword">false</span>);</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> STATE_ENDLESS:</div><div class="line">                    progressWheel.setVisibility(View.INVISIBLE);</div><div class="line">                    progressWheel.stopSpinning();</div><div class="line">                    tvText.setVisibility(View.VISIBLE);</div><div class="line">                    tvText.setText(<span class="keyword">null</span>);</div><div class="line">                    tvText.setClickable(<span class="keyword">true</span>);</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> STATE_FAILED:</div><div class="line">                    progressWheel.setVisibility(View.INVISIBLE);</div><div class="line">                    progressWheel.stopSpinning();</div><div class="line">                    tvText.setVisibility(View.VISIBLE);</div><div class="line">                    tvText.setText(R.string.load_more_failed);</div><div class="line">                    tvText.setClickable(<span class="keyword">true</span>);</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">default</span>:</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> AssertionError(<span class="string">"Unknow load more state."</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">checkLoadMore</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (getState() == STATE_ENDLESS || getState() == STATE_FAILED) &#123;</div><div class="line">            setState(STATE_LOADING);</div><div class="line">            loadMoreListener.onLoadMore();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@OnClick</span>(R.id.tv_text)</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onBtnTextClick</span><span class="params">()</span> </span>&#123;</div><div class="line">        checkLoadMore();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>有了上面的铺垫，这里的代码就很容易看懂了。</p>
+<p>有几点注意：</p>
+<ol>
+<li><p>5中状态的声明中，我们没有使用枚举，而是定义了一个 @interface state，这是 Google 推荐的方式，Android 中这种方式比枚举性能更好。这里你使用枚举也是可以的。</p>
+</li>
+<li><p>我们定义了两个构造函数，分别对应 ListView 和 RecyclerView 两种控件。你可以根据你的情况去调整。</p>
+</li>
+<li><p>我们在滚动监听中，在 onScroll 和 onScrollStateChanged 回调都做了加载检测，你可以选择只做其中一个监听。我知道你可能会担心性能问题，实际上哪里只是一个判断，而判断是不消耗时间复杂度的。</p>
+</li>
+<li><p>默认的状态为 STATE_DISABLED，因为通常来说应该是先调用下拉刷新，下拉刷新成功之后，才可以加载更多。</p>
+</li>
+</ol>
+<p>另外，setState(@State int state) 是用来切换布局状态的，你在这里变更你的布局状态。</p>
+<p>上面的 UI 样式只是一个示例，你可以根据你的喜好自己调整，思路都是相同的。</p>
+<h3 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h3><p>因为要考虑状态切换的不同情况，这里也包含下拉刷新回调的逻辑处理，下面给出完整的代码。</p>
+<p>首先是 ListView 的情况：</p>
+<p><a href="https://github.com/TakWolf/Android-RefreshAndLoadMore-Demo/blob/master/app/src/main/java/com/takwolf/android/refreshandloadmore/demo/ui/activity/ListViewDemoActivity.java" target="_blank" rel="external">ListViewDemoActivity.java</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListViewDemoActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> <span class="keyword">implements</span> <span class="title">SwipeRefreshLayout</span>.<span class="title">OnRefreshListener</span>, <span class="title">LoadMoreFooter</span>.<span class="title">OnLoadMoreListener</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> PAGE_SIZE = <span class="number">20</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TOTAL_COUNT = <span class="number">200</span>;</div><div class="line"></div><div class="line">    <span class="meta">@BindView</span>(R.id.refresh_layout)</div><div class="line">    SwipeRefreshLayout refreshLayout;</div><div class="line"></div><div class="line">    <span class="meta">@BindView</span>(R.id.list_view)</div><div class="line">    ListView listView;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> LoadMoreFooter loadMoreFooter;</div><div class="line">    <span class="keyword">private</span> IllustListAdapter2 adapter;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_list_view);</div><div class="line">        ButterKnife.bind(<span class="keyword">this</span>);</div><div class="line"></div><div class="line">        loadMoreFooter = <span class="keyword">new</span> LoadMoreFooter(<span class="keyword">this</span>, listView, <span class="keyword">this</span>); <span class="comment">// 这里初始化加载更多</span></div><div class="line"></div><div class="line">        adapter = <span class="keyword">new</span> IllustListAdapter2(<span class="keyword">this</span>);</div><div class="line">        listView.setAdapter(adapter);</div><div class="line"></div><div class="line">        refreshLayout.setColorSchemeResources(R.color.color_accent);</div><div class="line">        refreshLayout.setOnRefreshListener(<span class="keyword">this</span>);</div><div class="line">        refreshLayout.setRefreshing(<span class="keyword">true</span>);</div><div class="line">        onRefresh();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRefresh</span><span class="params">()</span> </span>&#123;</div><div class="line">        HandlerUtils.handler.postDelayed(<span class="keyword">new</span> Runnable() &#123;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                adapter.getIllustList().clear();</div><div class="line">                adapter.getIllustList().addAll(IllustClient.buildIllustList(PAGE_SIZE));</div><div class="line">                adapter.notifyDataSetChanged();</div><div class="line">                refreshLayout.setRefreshing(<span class="keyword">false</span>);</div><div class="line">                loadMoreFooter.setState(LoadMoreFooter.STATE_ENDLESS); <span class="comment">// 别忘了启用加载更多</span></div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;, <span class="number">1000</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLoadMore</span><span class="params">()</span> </span>&#123;</div><div class="line">        HandlerUtils.handler.postDelayed(<span class="keyword">new</span> Runnable() &#123;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                adapter.getIllustList().addAll(IllustClient.buildIllustList(PAGE_SIZE));</div><div class="line">                adapter.notifyDataSetChanged();</div><div class="line">                loadMoreFooter.setState(adapter.getCount() &gt;= TOTAL_COUNT ? LoadMoreFooter.STATE_FINISHED : LoadMoreFooter.STATE_ENDLESS);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;, <span class="number">1000</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>RecyclerView 的使用方式是相同的：</p>
+<p><a href="https://github.com/TakWolf/Android-RefreshAndLoadMore-Demo/blob/master/app/src/main/java/com/takwolf/android/refreshandloadmore/demo/ui/activity/RecyclerViewDemoActivity.java" target="_blank" rel="external">RecyclerViewDemoActivity.java</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RecyclerViewDemoActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> <span class="keyword">implements</span> <span class="title">SwipeRefreshLayout</span>.<span class="title">OnRefreshListener</span>, <span class="title">LoadMoreFooter</span>.<span class="title">OnLoadMoreListener</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> PAGE_SIZE = <span class="number">20</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TOTAL_COUNT = <span class="number">200</span>;</div><div class="line"></div><div class="line">    <span class="meta">@BindView</span>(R.id.refresh_layout)</div><div class="line">    SwipeRefreshLayout refreshLayout;</div><div class="line"></div><div class="line">    <span class="meta">@BindView</span>(R.id.recycler_view)</div><div class="line">    HeaderAndFooterRecyclerView recyclerView;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> LoadMoreFooter loadMoreFooter;</div><div class="line">    <span class="keyword">private</span> IllustListAdapter adapter;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_recycler_view);</div><div class="line">        ButterKnife.bind(<span class="keyword">this</span>);</div><div class="line"></div><div class="line">        recyclerView.setLayoutManager(<span class="keyword">new</span> LinearLayoutManager(<span class="keyword">this</span>));</div><div class="line"></div><div class="line">        loadMoreFooter = <span class="keyword">new</span> LoadMoreFooter(<span class="keyword">this</span>, recyclerView, <span class="keyword">this</span>); <span class="comment">// 这里初始化加载更多</span></div><div class="line"></div><div class="line">        adapter = <span class="keyword">new</span> IllustListAdapter(<span class="keyword">this</span>);</div><div class="line">        recyclerView.setAdapter(adapter);</div><div class="line"></div><div class="line">        refreshLayout.setColorSchemeResources(R.color.color_accent);</div><div class="line">        refreshLayout.setOnRefreshListener(<span class="keyword">this</span>);</div><div class="line">        refreshLayout.setRefreshing(<span class="keyword">true</span>);</div><div class="line">        onRefresh();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRefresh</span><span class="params">()</span> </span>&#123;</div><div class="line">        HandlerUtils.handler.postDelayed(<span class="keyword">new</span> Runnable() &#123;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                adapter.getIllustList().clear();</div><div class="line">                adapter.getIllustList().addAll(IllustClient.buildIllustList(PAGE_SIZE));</div><div class="line">                adapter.notifyDataSetChanged();</div><div class="line">                refreshLayout.setRefreshing(<span class="keyword">false</span>);</div><div class="line">                loadMoreFooter.setState(LoadMoreFooter.STATE_ENDLESS); <span class="comment">// 别忘了启用加载更多</span></div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;, <span class="number">1000</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLoadMore</span><span class="params">()</span> </span>&#123;</div><div class="line">        HandlerUtils.handler.postDelayed(<span class="keyword">new</span> Runnable() &#123;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                <span class="keyword">int</span> startPosition = adapter.getItemCount();</div><div class="line">                adapter.getIllustList().addAll(IllustClient.buildIllustList(PAGE_SIZE));</div><div class="line">                adapter.notifyItemRangeInserted(startPosition, PAGE_SIZE);</div><div class="line">                loadMoreFooter.setState(adapter.getItemCount() &gt;= TOTAL_COUNT ? LoadMoreFooter.STATE_FINISHED : LoadMoreFooter.STATE_ENDLESS);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;, <span class="number">1000</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的网络请求是模拟的，没有网络错误的情况，因此，我也用知乎日报的真实接口，写了一个例子：（感谢知乎提供接口）</p>
+<p><a href="https://github.com/TakWolf/Android-RefreshAndLoadMore-Demo/blob/master/app/src/main/java/com/takwolf/android/refreshandloadmore/demo/ui/activity/ZhihuDemoActivity.java" target="_blank" rel="external">ZhihuDemoActivity.java</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ZhihuDemoActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> <span class="keyword">implements</span> <span class="title">SwipeRefreshLayout</span>.<span class="title">OnRefreshListener</span>, <span class="title">LoadMoreFooter</span>.<span class="title">OnLoadMoreListener</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@BindView</span>(R.id.refresh_layout)</div><div class="line">    SwipeRefreshLayout refreshLayout;</div><div class="line"></div><div class="line">    <span class="meta">@BindView</span>(R.id.recycler_view)</div><div class="line">    HeaderAndFooterRecyclerView recyclerView;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> LoadMoreFooter loadMoreFooter;</div><div class="line">    <span class="keyword">private</span> StoryListAdapter adapter;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String date = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_recycler_view);</div><div class="line">        ButterKnife.bind(<span class="keyword">this</span>);</div><div class="line"></div><div class="line">        recyclerView.setLayoutManager(<span class="keyword">new</span> LinearLayoutManager(<span class="keyword">this</span>));</div><div class="line"></div><div class="line">        loadMoreFooter = <span class="keyword">new</span> LoadMoreFooter(<span class="keyword">this</span>, recyclerView, <span class="keyword">this</span>);</div><div class="line">        <span class="keyword">new</span> PaddingHeader(<span class="keyword">this</span>, recyclerView);</div><div class="line">        <span class="keyword">new</span> PaddingFooter(<span class="keyword">this</span>, recyclerView);</div><div class="line"></div><div class="line">        adapter = <span class="keyword">new</span> StoryListAdapter(<span class="keyword">this</span>);</div><div class="line">        recyclerView.setAdapter(adapter);</div><div class="line"></div><div class="line">        refreshLayout.setColorSchemeResources(R.color.color_accent);</div><div class="line">        refreshLayout.setOnRefreshListener(<span class="keyword">this</span>);</div><div class="line">        refreshLayout.setRefreshing(<span class="keyword">true</span>);</div><div class="line">        onRefresh();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRefresh</span><span class="params">()</span> </span>&#123;</div><div class="line">        ZhihuClient.service.getLatestStoryList().enqueue(<span class="keyword">new</span> CallbackWrapper&lt;StoryPage&gt;() &#123;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDataOk</span><span class="params">(StoryPage data)</span> </span>&#123;</div><div class="line">                date = data.getDate();</div><div class="line">                adapter.getStoryList().clear();</div><div class="line">                adapter.getStoryList().addAll(data.getStoryList());</div><div class="line">                adapter.notifyDataSetChanged();</div><div class="line">                refreshLayout.setRefreshing(<span class="keyword">false</span>);</div><div class="line">                loadMoreFooter.setState(LoadMoreFooter.STATE_ENDLESS);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onKindsOfError</span><span class="params">(@NonNull String message)</span> </span>&#123;</div><div class="line">                ToastUtils.with(ZhihuDemoActivity.<span class="keyword">this</span>).show(message);</div><div class="line">                refreshLayout.setRefreshing(<span class="keyword">false</span>);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLoadMore</span><span class="params">()</span> </span>&#123;</div><div class="line">        ZhihuClient.service.getStoryListBefore(date).enqueue(<span class="keyword">new</span> CallbackWrapper&lt;StoryPage&gt;() &#123;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDataOk</span><span class="params">(StoryPage data)</span> </span>&#123;</div><div class="line">                date = data.getDate();</div><div class="line">                <span class="keyword">int</span> startPosition = adapter.getItemCount();</div><div class="line">                adapter.getStoryList().addAll(data.getStoryList());</div><div class="line">                adapter.notifyItemRangeInserted(startPosition, data.getStoryList().size());</div><div class="line">                loadMoreFooter.setState(LoadMoreFooter.STATE_ENDLESS);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onKindsOfError</span><span class="params">(@NonNull String message)</span> </span>&#123;</div><div class="line">                ToastUtils.with(ZhihuDemoActivity.<span class="keyword">this</span>).show(message);</div><div class="line">                loadMoreFooter.setState(LoadMoreFooter.STATE_FAILED); <span class="comment">// 加载失败了给错误状态</span></div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>很简单，对吧，下拉刷新的功能就有了。</p>
+<p>开瓶可乐，庆祝一下。</p>
+<h2 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题"></a>一些问题</h2><p>这里有一些小问题，还好它们都可以解决，但是你还需要注意一下。</p>
+<h3 id="第一次请求数据填充不足一屏"><a href="#第一次请求数据填充不足一屏" class="headerlink" title="第一次请求数据填充不足一屏"></a>第一次请求数据填充不足一屏</h3><p>确实有这种情况，这可能造成问题。我模拟了一个例子，代码在这里：</p>
+<p><a href="https://github.com/TakWolf/Android-RefreshAndLoadMore-Demo/blob/master/app/src/main/java/com/takwolf/android/refreshandloadmore/demo/ui/activity/RecyclerViewNotFullDemoActivity.java" target="_blank" rel="external">RecyclerViewNotFullDemoActivity.java</a></p>
+<p>运行起来，效果是这样的：</p>
+<p><img src="/img/android-refresh-and-load-more-demo-02.gif" alt=""></p>
+<p>如果数据不足一屏，会自动再次触发加载更多。</p>
+<p>原因，ListView 和 RecyclerView，如果 Adapter 数据发送了变化，会自动触发一次 OnScrollListener 监听。</p>
+<p>这时，因为数据不足一屏，自然也是列表滚动到底部的情况，自然也会触发下拉刷新。</p>
+<p>我觉得这个行为挺好的。这是默认行为，而且看起来也不错。至少我想不出更好的方案。</p>
+<p>因此，虽然有这种情况，但其实不需要做特殊处理。</p>
+<h3 id="RecyclerView-边界滚动检测-BUG"><a href="#RecyclerView-边界滚动检测-BUG" class="headerlink" title="RecyclerView 边界滚动检测 BUG"></a>RecyclerView 边界滚动检测 BUG</h3><p>这是我偶然发现的一个问题，必须是使用 RecyclerView 的情况下才会出现。</p>
+<p>具体表现为：</p>
+<p>如果列表第一个 Item 存在，但是高度为 0px，下拉刷新（SwipeRefreshLayout）无法触发；</p>
+<p>如果列表最后一个 Item 存在，但是高度为 0px，底部滚动检测会失败。</p>
+<p>其实就是 ViewCompat.canScrollVertically 这个函数存在问题（SwipeRefreshLayout 底层边界检测实现用的也是这个函数）。</p>
+<p>如果边界 Item 高度为 0px，其实已经滚动到边界了，但是 ViewCompat.canScrollVertically 仍然会返回 true（可以滑动），造成逻辑错误。</p>
+<p>你可以自己去实验一下。</p>
+<p>你可能注意到，上面 LoadMoreFooter 中，我隐藏布局使用的是 View.INVISIBLE 而不是 View.GONE，就是为了避免这个问题。</p>
+<p>两者都可以隐藏控件，区别是 View.INVISIBLE 会保留占用空间，View.GONE 不会。</p>
+<p>因此使用 View.INVISIBLE 就可以避免高度变成 0px。</p>
+<p>总之目前是有这个 BUG，不确定之后 Google 会不会修复他。现阶段你还是要注意一下这个问题。</p>
+<h2 id="完结"><a href="#完结" class="headerlink" title="完结"></a>完结</h2><p>有些时候，其实不需要很复杂的东西。</p>
+<p>简简单单，也是一种哲学。</p>
+
+            
+                <blockquote>
+                    <p>
+                         
+                            This blog is under a <a href="/creativecommons.html" target="_blank">CC BY-NC-SA 3.0 Unported License</a>
+                        
+                        <br>
+                        本文链接： http://blog.takwolf.com/2017/06/15/android-refresh-and-load-more-demo/
+                    </p>
+                </blockquote>
+            
+        </div>
+    
+</div>
+
+
+                
+                    <!-- Paradox Post Info -->
+                    
+                
+
+                <!-- Post Comments -->
+                
+                    
+    <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "",
+    productKey: "f693b4af2b104bb48509d52db8e5b6a2",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2017/06/29/android-application-foreground-and-background-switch-listener/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2017/05/02/java-morse-coder/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+</footer>
+
+
+                    <!-- Import JS File -->
+
+    <script>lsloader.load("lazyload_js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==")</script>
+
+
+
+    <script>lsloader.load("js_js","/js/js.min.js?oAl/+lvaqTFV31JXTmbrNA==")</script>
+
+
+
+    <script>lsloader.load("np_js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==")</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#FF9800'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #FF9800, 0 0 15px #FF9800'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#FF9800',
+        'border-left-color': '#FF9800'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+    <!-- Busuanzi -->
+    <script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+   <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Import prettify js  -->
+
+
+<!-- Window Load -->
+<!-- add class for prettify -->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+
+    
+</script>
+
+<!-- MathJax Load-->
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Bing Background -->
+
+<script type="text/ls-javascript" id="Bing-Background-script">
+    queue.offer(function(){
+        $('body').attr('data-original', 'https://api.i-meto.com/bing?null');
+    });
+</script>
+
+
+<!-- Custom Footer -->
+
+
+
+<script>
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.4.0 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>

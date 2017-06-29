@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.4.0 -->
+    <script>
+        window.materialVersion = "1.4.0b1"
+        // Delete localstorage with these tags
+        window.oldVersion = [
+            'codestartv1',
+            '1.3.4',
+            '1.4.0'
+        ]
+    </script>
+
+    <!-- Title -->
+    
+    <title>
+        
+            Java MorseCoder - Java 语言实现的摩尔斯电码编码解码器 | 
+        
+        TakWolf &#39;s Blog
+    </title>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+
+
+    <link rel="dns-prefetch" href="https://busuanzi.ibruce.info"/>
+
+
+
+    <link rel="dns-prefetch" href="https://img1.cache.netease.com"/>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#FF9800">
+    <meta name="author" content="TakWolf">
+    <meta name="description" itemprop="description" content="代码已经扔到 GitHub 上了，地址在 https://github.com/TakWolf/Java-MorseCoder">
+    <meta name="keywords" content="null,Java,Morse">
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(key){try{localStorage.removeItem(key)}catch(e){}};lsloader.setLS=function(key,val){try{localStorage.setItem(key,val)}catch(e){}};lsloader.getLS=function(key){var val="";try{val=localStorage.getItem(key)}catch(e){val=""}return val};versionString="/*"+materialVersion+"*/";lsloader.clean=function(){try{var keys=[];for(var i=0;i<localStorage.length;i++){keys.push(localStorage.key(i))}keys.forEach(function(key){var data=lsloader.getLS(key);if(window.oldVersion){var remove=window.oldVersion.reduce(function(p,c){return p||data.indexOf(c)!==-1},false);if(remove){lsloader.removeLS(key)}}})}catch(e){}};lsloader.clean();lsloader.load=function(jsname,jspath,cssonload){cssonload=cssonload||function(){};var code;code=this.getLS(jsname);if(code&&code.indexOf(versionString)===-1){this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}if(code){var versionNumber=code.split(versionString)[0];if(versionNumber!=jspath){console.log("reload:"+jspath);this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}code=code.split(versionString)[1];if(/\.js?.+$/.test(versionNumber)){this.jsRunSequence.push({name:jsname,code:code});this.runjs(jspath,jsname,code)}else{document.getElementById(jsname).appendChild(document.createTextNode(code));cssonload()}}else{this.requestResource(jsname,jspath,cssonload)}};lsloader.requestResource=function(name,path,cssonload){var that=this;if(/\.js?.+$/.test(path)){this.iojs(path,name,function(path,name,code){that.setLS(name,path+versionString+code);that.runjs(path,name,code)})}else if(/\.css?.+$/.test(path)){this.iocss(path,name,function(code){document.getElementById(name).appendChild(document.createTextNode(code));that.setLS(name,path+versionString+code)},cssonload)}};lsloader.iojs=function(path,jsname,callback){var that=this;that.jsRunSequence.push({name:jsname,code:""});try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(path,jsname,xhr.response);return}}that.jsfallback(path,jsname)}};xhr.send(null)}catch(e){that.jsfallback(path,jsname)}};lsloader.iocss=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.iofonts=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.runjs=function(path,name,code){if(!!name&&!!code){for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code=code}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var script=document.createElement("script");script.appendChild(document.createTextNode(this.jsRunSequence[0].code));script.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(script);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var that=this;var script=document.createElement("script");script.src=this.jsRunSequence[0].path;script.type="text/javascript";this.jsRunSequence[0].status="loading";script.onload=function(){that.jsRunSequence.shift();if(that.jsRunSequence.length>0){that.runjs()}};document.body.appendChild(script)}};lsloader.tagLoad=function(path,name){this.jsRunSequence.push({name:name,code:"",path:path,status:"failed"});this.runjs()};lsloader.jsfallback=function(path,name){if(!!this.jsnamemap[name]){return}else{this.jsnamemap[name]=name}for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code="";this.jsRunSequence[k].status="failed";this.jsRunSequence[k].path=path}}this.runjs()};lsloader.cssfallback=function(path,name,cssonload){if(!!this.cssnamemap[name]){return}else{this.cssnamemap[name]=1}var link=document.createElement("link");link.type="text/css";link.href=path;link.rel="stylesheet";link.onload=link.onerror=cssonload;var root=document.getElementsByTagName("script")[0];root.parentNode.insertBefore(link,root)};lsloader.runInlineScript=function(scriptId,codeId){var code=document.getElementById(codeId).innerText;this.jsRunSequence.push({name:scriptId,code:code});this.runjs()};lsloader.loadCombo=function(jslist){var updateList="";var requestingModules={};for(var k in jslist){var LS=this.getLS(jslist[k].name);if(!!LS){var version=LS.split(versionString)[0];var code=LS.split(versionString)[1]}else{var version=""}if(version==jslist[k].path){this.jsRunSequence.push({name:jslist[k].name,code:code,path:jslist[k].path})}else{this.jsRunSequence.push({name:jslist[k].name,code:null,path:jslist[k].path,status:"comboloading"});requestingModules[jslist[k].name]=true;updateList+=(updateList==""?"":";")+jslist[k].path}}var that=this;if(!!updateList){var xhr=new XMLHttpRequest;xhr.open("get",combo+updateList,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){that.runCombo(xhr.response,requestingModules);return}}else{for(var i in that.jsRunSequence){if(requestingModules[that.jsRunSequence[i].name]){that.jsRunSequence[i].status="failed"}}that.runjs()}}};xhr.send(null)}this.runjs()};lsloader.runCombo=function(comboCode,requestingModules){comboCode=comboCode.split("/*combojs*/");comboCode.shift();for(var k in this.jsRunSequence){if(!!requestingModules[this.jsRunSequence[k].name]&&!!comboCode[0]){this.jsRunSequence[k].status="comboJS";this.jsRunSequence[k].code=comboCode[0];this.setLS(this.jsRunSequence[k].name,this.jsRunSequence[k].path+versionString+comboCode[0]);comboCode.shift()}}this.runjs()}})();</script>
+
+    <!--iOS -->
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="TakWolf &#39;s Blog">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- RSS -->
+    
+    
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import CSS -->
+    
+        <style id="material_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_css","/css/material.min.css?Z7a72R1E4SxzBKR/WGctOA==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","/css/style.min.css?oCSEO3ST+aEypEwttTDI9g==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+
+        
+
+    
+
+    
+        
+            <link rel="preload" href="/css/fontawesome.min.css" as="style" onload="this.rel='stylesheet'">
+        
+    
+
+    <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    overflow-x: hidden !important;
+  }
+
+  a {
+    color: #FF9800;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #FF9800 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #FF9800 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #FF9800 !important;
+  }
+
+  .toTop {
+    background: #FF9800 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #FF9800;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #FF9800;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #FF9800;
+  }
+
+  .post-toc a:hover {
+    color: #FF9800;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body {
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text {
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+<!-- Import Roboto -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+
+
+<!-- Import Material Icon -->
+
+    <style>
+        @font-face {
+            font-family: 'Material Icons';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Material Icons'),
+            local('MaterialIcons-Regular'),
+            url(/fonts/MaterialIcons-Regular.woff2) format('woff2'),
+            url(/fonts/MaterialIcons-Regular.woff) format('woff'),
+            url(/fonts/MaterialIcons-Regular.ttf) format('truetype');
+        }
+    </style>
+
+
+
+
+    
+
+    <!-- Import jQuery -->
+    
+        <script>lsloader.load("jq_js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==")</script>
+    
+
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://blog.takwolf.com">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Java MorseCoder - Java 语言实现的摩尔斯电码编码解码器 | TakWolf &#39;s Blog">
+    <meta property="og:image" content="/img/favicon.png" />
+    <meta property="og:description" content="代码已经扔到 GitHub 上了，地址在 https://github.com/TakWolf/Java-MorseCoder">
+    <meta property="og:article:tag" content="Java"> <meta property="og:article:tag" content="Morse"> 
+
+    
+        <meta property="article:published_time" content="Tue May 02 2017 00:00:00 GMT+0800" />
+        <meta property="article:modified_time" content="Thu Jun 29 2017 15:04:58 GMT+0800" />
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:title" content="Java MorseCoder - Java 语言实现的摩尔斯电码编码解码器 | TakWolf &#39;s Blog">
+    <meta name="twitter:description" content="代码已经扔到 GitHub 上了，地址在 https://github.com/TakWolf/Java-MorseCoder">
+    <meta name="twitter:image" content="/img/favicon.png">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="http://blog.takwolf.com" />
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="http://blog.takwolf.com/2017/05/02/java-morse-coder/index.html" />
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "http://blog.takwolf.com/2017/05/02/java-morse-coder/index.html",
+    "headline": "Java MorseCoder - Java 语言实现的摩尔斯电码编码解码器",
+    "datePublished": "Tue May 02 2017 00:00:00 GMT+0800",
+    "dateModified": "Thu Jun 29 2017 15:04:58 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "TakWolf",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/avatar.png"
+        },
+        "description": "Anima Game Code Repeat"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "TakWolf &#39;s Blog",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/favicon.png"
+        }
+    },
+    "keywords": ",Java,Morsenull",
+    "description": "代码已经扔到 GitHub 上了，地址在 https://github.com/TakWolf/Java-MorseCoder",
+}
+</script>
+
+
+    
+
+    <!-- Analytics -->
+    
+
+    <!-- Custom Head -->
+    
+
+</head>
+
+
+    
+        <body id="scheme-Isolation" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+                    <!-- Isolation Header -->
+                    <header class="header">
+    <div class="header-wrapper">
+        <!-- Header Copyright -->
+        <div class="header-copyright">
+            <div class="header-site">
+                ©&nbsp;
+                <script type="text/javascript">
+                    var fd = new Date();
+                    document.write(fd.getFullYear());
+                </script>
+                &nbsp;TakWolf 's Blog
+            </div>
+            <!--
+            I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+            It will not impact the appearance and can give developers a lot of support :)
+
+            很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+            它不会影响美观并可以给开发者很大的支持。 :)
+            -->
+            <div>
+                Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a>
+                <br>
+                Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a>
+            </div>
+        </div>
+
+        <!-- Header Title -->
+        <span class="header-title header-item">
+            <a href="/" title="TakWolf &#39;s Blog">
+                TakWolf &#39;s Blog
+            </a>
+        </span>
+
+        <p class="header-slogan header-item">
+        
+            
+                Anima Game Code Repeat
+            
+        
+        </p>
+
+        <!-- Header Nav -->
+        <nav class="header-nav header-item">
+            <span class="header-nav-item">
+                <a href="/" title="Home">
+                    <span>主页</span>
+                </a>
+            </span>
+
+            <!-- Pages  -->
+            
+                <span class="header-nav-item">
+                    <a href="/about" title="关于">
+                        <span>关于</span>
+                    </a>
+                </span>
+            
+                <span class="header-nav-item">
+                    <a href="/play" title="好玩">
+                        <span>好玩</span>
+                    </a>
+                </span>
+            
+            
+        </nav>
+
+        <!-- Header SNS -->
+        <div class="header-item header-sns_list">
+    <!-- Twitter -->
+    
+        <a href="https://twitter.com/takgdx" target="_blank">
+            <i class="fa fa-twitter fa-lg" aria-hidden="true"></i>
+        </a>
+    
+
+    <!-- Facebook -->
+    
+        <a href="https://www.facebook.com/hero.takwolf" target="_blank">
+            <i class="fa fa-facebook fa-lg" aria-hidden="true"></i>
+        </a>
+    
+
+    <!-- Google + -->
+    
+        <a href="https://plus.google.com/u/0/101562106204171844130/posts" target="_blank">
+            <i class="fa fa-google-plus fa-lg" aria-hidden="true"></i>
+        </a>
+    
+
+    <!-- Weibo -->
+    
+        <a href="http://weibo.com/takwolf" target="_blank">
+            <i class="fa fa-weibo fa-lg" aria-hidden="true"></i>
+        </a>
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/takwolf" target="_blank">
+            <i class="fa fa-github fa-lg" aria-hidden="true"></i>
+        </a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+    </div>
+</header>
+
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+
+                    <!-- Post TOC -->
+
+    
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+
+
+    <!-- Isolation Post Header -->
+    <!-- Post thumbnail -->
+    
+        <!-- Post Header Info -->
+        <div class="post-header_info without-thumbnail">
+            <!-- Author Avatar & Name -->
+            <img src="/img/avatar.png" class="avatar-img" width="44px" height="44px" alt="TakWolf's avatar">
+            <span class="name-span">TakWolf</span>
+        </div>
+
+        <!-- Null Thumbnail -->
+        <div class="post_thumbnail-null">
+    
+        </div>
+
+
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+
+    
+        <div class="post-content_wrapper">
+            <p class="post-title">
+                Java MorseCoder - Java 语言实现的摩尔斯电码编码解码器
+            </p>
+            <p>代码已经扔到 GitHub 上了，地址在 <a href="https://github.com/TakWolf/Java-MorseCoder" target="_blank" rel="external">https://github.com/TakWolf/Java-MorseCoder</a></p>
+<a id="more"></a>
+<h2 id="关于摩尔斯电码"><a href="#关于摩尔斯电码" class="headerlink" title="关于摩尔斯电码"></a>关于摩尔斯电码</h2><p>不详细介绍了，维基百科上面介绍的更详细。请参考：<a href="https://zh.wikipedia.org/wiki/摩尔斯电码" target="_blank" rel="external">维基百科 -&gt; 摩尔斯电码</a></p>
+<p>说几个重要的概念。</p>
+<p>摩尔斯电码由三种类型的信号组成，分别为：短信号（滴）、长信号（嗒）和分隔符。三种信号通常习惯使用“.”、“-”、“/”表示。</p>
+<p>摩尔斯电码有一个密码表，用来映射密码。密码表如下：（注意：字母都会转换为大写，0 为短信号，1 为长信号。）</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>电码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>01</td>
+</tr>
+<tr>
+<td>B</td>
+<td>1000</td>
+</tr>
+<tr>
+<td>C</td>
+<td>1010</td>
+</tr>
+<tr>
+<td>D</td>
+<td>100</td>
+</tr>
+<tr>
+<td>E</td>
+<td>0</td>
+</tr>
+<tr>
+<td>F</td>
+<td>0010</td>
+</tr>
+<tr>
+<td>G</td>
+<td>110</td>
+</tr>
+<tr>
+<td>H</td>
+<td>0000</td>
+</tr>
+<tr>
+<td>I</td>
+<td>00</td>
+</tr>
+<tr>
+<td>J</td>
+<td>0111</td>
+</tr>
+<tr>
+<td>K</td>
+<td>101</td>
+</tr>
+<tr>
+<td>L</td>
+<td>0100</td>
+</tr>
+<tr>
+<td>M</td>
+<td>11</td>
+</tr>
+<tr>
+<td>N</td>
+<td>10</td>
+</tr>
+<tr>
+<td>O</td>
+<td>111</td>
+</tr>
+<tr>
+<td>P</td>
+<td>0110</td>
+</tr>
+<tr>
+<td>Q</td>
+<td>1101</td>
+</tr>
+<tr>
+<td>R</td>
+<td>010</td>
+</tr>
+<tr>
+<td>S</td>
+<td>000</td>
+</tr>
+<tr>
+<td>T</td>
+<td>1</td>
+</tr>
+<tr>
+<td>U</td>
+<td>001</td>
+</tr>
+<tr>
+<td>V</td>
+<td>0001</td>
+</tr>
+<tr>
+<td>W</td>
+<td>011</td>
+</tr>
+<tr>
+<td>X</td>
+<td>1001</td>
+</tr>
+<tr>
+<td>Y</td>
+<td>1011</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>1100</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>电码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>11111</td>
+</tr>
+<tr>
+<td>1</td>
+<td>01111</td>
+</tr>
+<tr>
+<td>2</td>
+<td>00111</td>
+</tr>
+<tr>
+<td>3</td>
+<td>00011</td>
+</tr>
+<tr>
+<td>4</td>
+<td>00001</td>
+</tr>
+<tr>
+<td>5</td>
+<td>00000</td>
+</tr>
+<tr>
+<td>6</td>
+<td>10000</td>
+</tr>
+<tr>
+<td>7</td>
+<td>11000</td>
+</tr>
+<tr>
+<td>8</td>
+<td>11100</td>
+</tr>
+<tr>
+<td>9</td>
+<td>11110</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>电码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.</td>
+<td>010101</td>
+</tr>
+<tr>
+<td>,</td>
+<td>110011</td>
+</tr>
+<tr>
+<td>?</td>
+<td>001100</td>
+</tr>
+<tr>
+<td>‘</td>
+<td>011110</td>
+</tr>
+<tr>
+<td>!</td>
+<td>101011</td>
+</tr>
+<tr>
+<td>/</td>
+<td>10010</td>
+</tr>
+<tr>
+<td>(</td>
+<td>10110</td>
+</tr>
+<tr>
+<td>)</td>
+<td>101101</td>
+</tr>
+<tr>
+<td>&amp;</td>
+<td>01000</td>
+</tr>
+<tr>
+<td>:</td>
+<td>111000</td>
+</tr>
+<tr>
+<td>;</td>
+<td>101010</td>
+</tr>
+<tr>
+<td>=</td>
+<td>10001</td>
+</tr>
+<tr>
+<td>+</td>
+<td>01010</td>
+</tr>
+<tr>
+<td>-</td>
+<td>100001</td>
+</tr>
+<tr>
+<td>_</td>
+<td>001101</td>
+</tr>
+<tr>
+<td>“</td>
+<td>010010</td>
+</tr>
+<tr>
+<td>$</td>
+<td>0001001</td>
+</tr>
+<tr>
+<td>@</td>
+<td>011010</td>
+</tr>
+</tbody>
+</table>
+<p>我们拿到一个摩尔斯密文，第一步先要进行分割，拆分出每个字母。然后对照密码表进行翻译即可。</p>
+<p>例如，我们有下面的密文：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.../---/...</div></pre></td></tr></table></figure>
+<p>拆分单词，得到三个字母，为：<code>...</code> <code>---</code> <code>...</code>。</p>
+<p>对照密码表翻译，明文即为：SOS（国际通用求救信号）</p>
+<p>就是这么简单。</p>
+<h2 id="Unicode-字符集扩展"><a href="#Unicode-字符集扩展" class="headerlink" title="Unicode 字符集扩展"></a>Unicode 字符集扩展</h2><p>摩尔斯电码只定义了很少的基本字符，甚至基本 ASCII 码表都没有补全。</p>
+<p>我们希望可以编码更多的文字，比如中文、日文甚至 Emoji 表情字符。换句话说，我们希望可以支持所有的 Unicode 编码。怎么做呢？</p>
+<p>有一种简单的方法，直接获取 Unicode 值的二进制，然后 0 替换为短信号，1 替换为长信号。</p>
+<p>这样，是字典中定义的字母，则按照标准规范翻译，否则用二级制转换为 Unicode，理论上就可以支持所有字符。</p>
+<p>该思路来源于：<a href="https://github.com/hustcc/xmorse" target="_blank" rel="external">https://github.com/hustcc/xmorse</a></p>
+<p>这是另外一个摩尔斯编码解码器实现，使用的是 Javascript 实现的。该项目中就使用了这个思路。</p>
+<h2 id="Java-中关于-Unicode-的一些操作"><a href="#Java-中关于-Unicode-的一些操作" class="headerlink" title="Java 中关于 Unicode 的一些操作"></a>Java 中关于 Unicode 的一些操作</h2><p>在 Java 中，一个 Unicode 被称为 codePoint，他是一个 int 型。</p>
+<p>事实上，ASCII 码表也属于 Unicode。但是要注意的是，一个 Unicode 字符，可能由多个 char 组成。</p>
+<p>这里的原理一两句话说不清，有兴趣去搜索一下 Unicode、Java 字符集相关的资源看看。</p>
+<p>这里只说一下在 Java 中相关转换方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// String 拆分 codePoint 示例</span></div><div class="line">String text = <span class="string">"Some Text"</span>;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; text.codePointCount(<span class="number">0</span>, text.length()); i++) &#123;</div><div class="line">    <span class="keyword">int</span> codePoint = text.codePointAt(i);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// char 数组拆分 codePoint 示例</span></div><div class="line"><span class="keyword">char</span>[] chars = <span class="keyword">new</span> <span class="keyword">char</span>[] &#123;&#125;;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; Character.codePointCount(chars, <span class="number">0</span>, chars.length); i++) &#123;</div><div class="line">    <span class="keyword">int</span> codePoint = Character.codePointAt(chars, i);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// codePoint 转换为 String</span></div><div class="line"><span class="keyword">char</span>[] chars = Character.toChars(codePoint);</div><div class="line">String text = <span class="keyword">new</span> String(chars);</div><div class="line"></div><div class="line"><span class="comment">// 也可以通过 StringBuilder 来转换</span></div><div class="line"><span class="keyword">new</span> StringBuilder().appendCodePoint(codePoint).toString();</div></pre></td></tr></table></figure>
+<p>具体的参数含义，可以去看一下文档。</p>
+<h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><p>有了上面的铺垫，实现思路就非常清晰了。</p>
+<p>我们定义两个 Map 结构：</p>
+<p>一个叫做字母表，用于描述 codePoint 到摩尔斯电码的转换，编码时使用；</p>
+<p>另一个叫做字典，用于描述摩尔斯电码到 codePoint 的转换，解码时使用。</p>
+<p>这中间涉及到 codePoint 和 String 的互相转换问题。</p>
+<p>遇到字典中未定义的字母，则按照 Unicode 的二进制值做转换。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">MorseCoder</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Map&lt;Integer, String&gt; alphabets = <span class="keyword">new</span> HashMap&lt;&gt;();    <span class="comment">// code point -&gt; morse</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Map&lt;String, Integer&gt; dictionaries = <span class="keyword">new</span> HashMap&lt;&gt;(); <span class="comment">// morse -&gt; code point</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">registeMorse</span><span class="params">(Character abc, String dict)</span> </span>&#123;</div><div class="line">        alphabets.put(Integer.valueOf(abc), dict);</div><div class="line">        dictionaries.put(dict, Integer.valueOf(abc));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> &#123;</div><div class="line">        <span class="comment">// Letters</span></div><div class="line">        registeMorse(<span class="string">'A'</span>, <span class="string">"01"</span>);</div><div class="line">        registeMorse(<span class="string">'B'</span>, <span class="string">"1000"</span>);</div><div class="line">        registeMorse(<span class="string">'C'</span>, <span class="string">"1010"</span>);</div><div class="line">        registeMorse(<span class="string">'D'</span>, <span class="string">"100"</span>);</div><div class="line">        registeMorse(<span class="string">'E'</span>, <span class="string">"0"</span>);</div><div class="line">        registeMorse(<span class="string">'F'</span>, <span class="string">"0010"</span>);</div><div class="line">        registeMorse(<span class="string">'G'</span>, <span class="string">"110"</span>);</div><div class="line">        registeMorse(<span class="string">'H'</span>, <span class="string">"0000"</span>);</div><div class="line">        registeMorse(<span class="string">'I'</span>, <span class="string">"00"</span>);</div><div class="line">        registeMorse(<span class="string">'J'</span>, <span class="string">"0111"</span>);</div><div class="line">        registeMorse(<span class="string">'K'</span>, <span class="string">"101"</span>);</div><div class="line">        registeMorse(<span class="string">'L'</span>, <span class="string">"0100"</span>);</div><div class="line">        registeMorse(<span class="string">'M'</span>, <span class="string">"11"</span>);</div><div class="line">        registeMorse(<span class="string">'N'</span>, <span class="string">"10"</span>);</div><div class="line">        registeMorse(<span class="string">'O'</span>, <span class="string">"111"</span>);</div><div class="line">        registeMorse(<span class="string">'P'</span>, <span class="string">"0110"</span>);</div><div class="line">        registeMorse(<span class="string">'Q'</span>, <span class="string">"1101"</span>);</div><div class="line">        registeMorse(<span class="string">'R'</span>, <span class="string">"010"</span>);</div><div class="line">        registeMorse(<span class="string">'S'</span>, <span class="string">"000"</span>);</div><div class="line">        registeMorse(<span class="string">'T'</span>, <span class="string">"1"</span>);</div><div class="line">        registeMorse(<span class="string">'U'</span>, <span class="string">"001"</span>);</div><div class="line">        registeMorse(<span class="string">'V'</span>, <span class="string">"0001"</span>);</div><div class="line">        registeMorse(<span class="string">'W'</span>, <span class="string">"011"</span>);</div><div class="line">        registeMorse(<span class="string">'X'</span>, <span class="string">"1001"</span>);</div><div class="line">        registeMorse(<span class="string">'Y'</span>, <span class="string">"1011"</span>);</div><div class="line">        registeMorse(<span class="string">'Z'</span>, <span class="string">"1100"</span>);</div><div class="line">        <span class="comment">// Numbers</span></div><div class="line">        registeMorse(<span class="string">'0'</span>, <span class="string">"11111"</span>);</div><div class="line">        registeMorse(<span class="string">'1'</span>, <span class="string">"01111"</span>);</div><div class="line">        registeMorse(<span class="string">'2'</span>, <span class="string">"00111"</span>);</div><div class="line">        registeMorse(<span class="string">'3'</span>, <span class="string">"00011"</span>);</div><div class="line">        registeMorse(<span class="string">'4'</span>, <span class="string">"00001"</span>);</div><div class="line">        registeMorse(<span class="string">'5'</span>, <span class="string">"00000"</span>);</div><div class="line">        registeMorse(<span class="string">'6'</span>, <span class="string">"10000"</span>);</div><div class="line">        registeMorse(<span class="string">'7'</span>, <span class="string">"11000"</span>);</div><div class="line">        registeMorse(<span class="string">'8'</span>, <span class="string">"11100"</span>);</div><div class="line">        registeMorse(<span class="string">'9'</span>, <span class="string">"11110"</span>);</div><div class="line">        <span class="comment">// Punctuation</span></div><div class="line">        registeMorse(<span class="string">'.'</span>, <span class="string">"010101"</span>);</div><div class="line">        registeMorse(<span class="string">','</span>, <span class="string">"110011"</span>);</div><div class="line">        registeMorse(<span class="string">'?'</span>, <span class="string">"001100"</span>);</div><div class="line">        registeMorse(<span class="string">'\''</span>, <span class="string">"011110"</span>);</div><div class="line">        registeMorse(<span class="string">'!'</span>, <span class="string">"101011"</span>);</div><div class="line">        registeMorse(<span class="string">'/'</span>, <span class="string">"10010"</span>);</div><div class="line">        registeMorse(<span class="string">'('</span>, <span class="string">"10110"</span>);</div><div class="line">        registeMorse(<span class="string">')'</span>, <span class="string">"101101"</span>);</div><div class="line">        registeMorse(<span class="string">'&amp;'</span>, <span class="string">"01000"</span>);</div><div class="line">        registeMorse(<span class="string">':'</span>, <span class="string">"111000"</span>);</div><div class="line">        registeMorse(<span class="string">';'</span>, <span class="string">"101010"</span>);</div><div class="line">        registeMorse(<span class="string">'='</span>, <span class="string">"10001"</span>);</div><div class="line">        registeMorse(<span class="string">'+'</span>, <span class="string">"01010"</span>);</div><div class="line">        registeMorse(<span class="string">'-'</span>, <span class="string">"100001"</span>);</div><div class="line">        registeMorse(<span class="string">'_'</span>, <span class="string">"001101"</span>);</div><div class="line">        registeMorse(<span class="string">'"'</span>, <span class="string">"010010"</span>);</div><div class="line">        registeMorse(<span class="string">'$'</span>, <span class="string">"0001001"</span>);</div><div class="line">        registeMorse(<span class="string">'@'</span>, <span class="string">"011010"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> dit; <span class="comment">// short mark or dot</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> dah; <span class="comment">// longer mark or dash</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> split;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MorseCoder</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>(<span class="string">'.'</span>, <span class="string">'-'</span>, <span class="string">'/'</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MorseCoder</span><span class="params">(<span class="keyword">char</span> dit, <span class="keyword">char</span> dah, <span class="keyword">char</span> split)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.dit = dit;</div><div class="line">        <span class="keyword">this</span>.dah = dah;</div><div class="line">        <span class="keyword">this</span>.split = split;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">encode</span><span class="params">(String text)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (text == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Text should not be null."</span>);</div><div class="line">        &#125;</div><div class="line">        text = text.toUpperCase();</div><div class="line">        StringBuilder morseBuilder = <span class="keyword">new</span> StringBuilder();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; text.codePointCount(<span class="number">0</span>, text.length()); i++) &#123;</div><div class="line">            <span class="keyword">int</span> codePoint = text.codePointAt(i);</div><div class="line">            String word = alphabets.get(codePoint);</div><div class="line">            <span class="keyword">if</span> (word == <span class="keyword">null</span>) &#123;</div><div class="line">                word = Integer.toBinaryString(codePoint);</div><div class="line">            &#125;</div><div class="line">            morseBuilder.append(word.replace(<span class="string">'0'</span>, dit).replace(<span class="string">'1'</span>, dah)).append(split);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> morseBuilder.toString();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">decode</span><span class="params">(String morse)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (morse == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Morse should not be null."</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (!StringUtils.containsOnly(morse, dit, dah, split)) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Incorrect morse."</span>);</div><div class="line">        &#125;</div><div class="line">        String[] words = StringUtils.split(morse, split);</div><div class="line">        StringBuilder textBuilder = <span class="keyword">new</span> StringBuilder();</div><div class="line">        <span class="keyword">for</span> (String word : words) &#123;</div><div class="line">            word = word.replace(dit, <span class="string">'0'</span>).replace(dah, <span class="string">'1'</span>);</div><div class="line">            Integer codePoint = dictionaries.get(word);</div><div class="line">            <span class="keyword">if</span> (codePoint == <span class="keyword">null</span>) &#123;</div><div class="line">                codePoint = Integer.valueOf(word, <span class="number">2</span>);</div><div class="line">            &#125;</div><div class="line">            textBuilder.appendCodePoint(codePoint);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> textBuilder.toString();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代码非常简单，有了上面的铺垫，很容易理解，不在详细说明。</p>
+<p>使用的时候，是这样的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MorseCoderTest</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> MorseCoder morseCoder = <span class="keyword">new</span> MorseCoder();</div><div class="line"></div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test0</span><span class="params">()</span> </span>&#123;</div><div class="line">        String text = <span class="string">"Hello World!"</span>;</div><div class="line">        String morse = <span class="string">"...././.-../.-../---/-...../.--/---/.-./.-../-../-.-.--/"</span>;</div><div class="line">        Assert.assertEquals(morseCoder.encode(text), morse);</div><div class="line">        Assert.assertEquals(morseCoder.decode(morse), text.toUpperCase());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span> </span>&#123;</div><div class="line">        String text = <span class="string">"你好，世界！"</span>;</div><div class="line">        String morse = <span class="string">"-..----.--...../-.--..-.-----.-/--------....--../-..---....-.--./---.-.-.-..--../--------.......-/"</span>;</div><div class="line">        Assert.assertEquals(morseCoder.encode(text), morse);</div><div class="line">        Assert.assertEquals(morseCoder.decode(morse), text);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span> </span>&#123;</div><div class="line">        String text = <span class="string">"こんにちは"</span>;</div><div class="line">        String morse = <span class="string">"--.....-.-..--/--....-..-..--/--.....--.-.--/--.....--....-/--.....--.----/"</span>;</div><div class="line">        Assert.assertEquals(morseCoder.encode(text), morse);</div><div class="line">        Assert.assertEquals(morseCoder.decode(morse), text);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代码已经放到 GitHub 上面了，地址在 <a href="https://github.com/TakWolf/Java-MorseCoder" target="_blank" rel="external">https://github.com/TakWolf/Java-MorseCoder</a></p>
+<p>并且已经做了一点微小的工作，将代码制作成 module 发布到了中心仓库中（JCenter），具体使用方式去 Readme 看吧，兼容 Android 环境。</p>
+<p>Have fun!</p>
+
+            
+                <blockquote>
+                    <p>
+                         
+                            This blog is under a <a href="/creativecommons.html" target="_blank">CC BY-NC-SA 3.0 Unported License</a>
+                        
+                        <br>
+                        本文链接： http://blog.takwolf.com/2017/05/02/java-morse-coder/
+                    </p>
+                </blockquote>
+            
+        </div>
+    
+</div>
+
+
+                
+                    <!-- Paradox Post Info -->
+                    
+                
+
+                <!-- Post Comments -->
+                
+                    
+    <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "",
+    productKey: "f693b4af2b104bb48509d52db8e5b6a2",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2017/06/15/android-refresh-and-load-more-demo/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2017/04/05/android-log-wtf/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+</footer>
+
+
+                    <!-- Import JS File -->
+
+    <script>lsloader.load("lazyload_js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==")</script>
+
+
+
+    <script>lsloader.load("js_js","/js/js.min.js?oAl/+lvaqTFV31JXTmbrNA==")</script>
+
+
+
+    <script>lsloader.load("np_js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==")</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#FF9800'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #FF9800, 0 0 15px #FF9800'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#FF9800',
+        'border-left-color': '#FF9800'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+    <!-- Busuanzi -->
+    <script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+   <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Import prettify js  -->
+
+
+<!-- Window Load -->
+<!-- add class for prettify -->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+
+    
+</script>
+
+<!-- MathJax Load-->
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Bing Background -->
+
+<script type="text/ls-javascript" id="Bing-Background-script">
+    queue.offer(function(){
+        $('body').attr('data-original', 'https://api.i-meto.com/bing?null');
+    });
+</script>
+
+
+<!-- Custom Footer -->
+
+
+
+<script>
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.4.0 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>

@@ -6,7 +6,15 @@
         © Material Theme
         https://github.com/viosey/hexo-theme-material
         Version: 1.4.0 -->
-    <script>window.materialVersion = "1.4.0"</script>
+    <script>
+        window.materialVersion = "1.4.0b1"
+        // Delete localstorage with these tags
+        window.oldVersion = [
+            'codestartv1',
+            '1.3.4',
+            '1.4.0'
+        ]
+    </script>
 
     <!-- Title -->
     
@@ -19,16 +27,24 @@
 
     <!-- dns prefetch -->
     <meta http-equiv="x-dns-prefetch-control" content="on">
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+    <link rel="dns-prefetch" href="https://busuanzi.ibruce.info"/>
+
+
+
+    <link rel="dns-prefetch" href="https://img1.cache.netease.com"/>
+
+
+
+
+
+
+
+
+
+
 
     <!-- Meta & Info -->
     <meta http-equiv="X-UA-Compatible">
@@ -38,14 +54,13 @@
     <meta name="description" itemprop="description" content="笔记，实现 Android 视频播放。">
     <meta name="keywords" content="null,Android,视频播放">
 
-    <!-- Site Verification -->
-    
-    
-
     <!-- Favicons -->
     <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
     <link rel="icon" sizes="192x192" href="/img/favicon.png">
     <link rel="apple-touch-icon" href="/img/favicon.png">
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(key){try{localStorage.removeItem(key)}catch(e){}};lsloader.setLS=function(key,val){try{localStorage.setItem(key,val)}catch(e){}};lsloader.getLS=function(key){var val="";try{val=localStorage.getItem(key)}catch(e){val=""}return val};versionString="/*"+materialVersion+"*/";lsloader.clean=function(){try{var keys=[];for(var i=0;i<localStorage.length;i++){keys.push(localStorage.key(i))}keys.forEach(function(key){var data=lsloader.getLS(key);if(window.oldVersion){var remove=window.oldVersion.reduce(function(p,c){return p||data.indexOf(c)!==-1},false);if(remove){lsloader.removeLS(key)}}})}catch(e){}};lsloader.clean();lsloader.load=function(jsname,jspath,cssonload){cssonload=cssonload||function(){};var code;code=this.getLS(jsname);if(code&&code.indexOf(versionString)===-1){this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}if(code){var versionNumber=code.split(versionString)[0];if(versionNumber!=jspath){console.log("reload:"+jspath);this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}code=code.split(versionString)[1];if(/\.js?.+$/.test(versionNumber)){this.jsRunSequence.push({name:jsname,code:code});this.runjs(jspath,jsname,code)}else{document.getElementById(jsname).appendChild(document.createTextNode(code));cssonload()}}else{this.requestResource(jsname,jspath,cssonload)}};lsloader.requestResource=function(name,path,cssonload){var that=this;if(/\.js?.+$/.test(path)){this.iojs(path,name,function(path,name,code){that.setLS(name,path+versionString+code);that.runjs(path,name,code)})}else if(/\.css?.+$/.test(path)){this.iocss(path,name,function(code){document.getElementById(name).appendChild(document.createTextNode(code));that.setLS(name,path+versionString+code)},cssonload)}};lsloader.iojs=function(path,jsname,callback){var that=this;that.jsRunSequence.push({name:jsname,code:""});try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(path,jsname,xhr.response);return}}that.jsfallback(path,jsname)}};xhr.send(null)}catch(e){that.jsfallback(path,jsname)}};lsloader.iocss=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.iofonts=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.runjs=function(path,name,code){if(!!name&&!!code){for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code=code}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var script=document.createElement("script");script.appendChild(document.createTextNode(this.jsRunSequence[0].code));script.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(script);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var that=this;var script=document.createElement("script");script.src=this.jsRunSequence[0].path;script.type="text/javascript";this.jsRunSequence[0].status="loading";script.onload=function(){that.jsRunSequence.shift();if(that.jsRunSequence.length>0){that.runjs()}};document.body.appendChild(script)}};lsloader.tagLoad=function(path,name){this.jsRunSequence.push({name:name,code:"",path:path,status:"failed"});this.runjs()};lsloader.jsfallback=function(path,name){if(!!this.jsnamemap[name]){return}else{this.jsnamemap[name]=name}for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code="";this.jsRunSequence[k].status="failed";this.jsRunSequence[k].path=path}}this.runjs()};lsloader.cssfallback=function(path,name,cssonload){if(!!this.cssnamemap[name]){return}else{this.cssnamemap[name]=1}var link=document.createElement("link");link.type="text/css";link.href=path;link.rel="stylesheet";link.onload=link.onerror=cssonload;var root=document.getElementsByTagName("script")[0];root.parentNode.insertBefore(link,root)};lsloader.runInlineScript=function(scriptId,codeId){var code=document.getElementById(codeId).innerText;this.jsRunSequence.push({name:scriptId,code:code});this.runjs()};lsloader.loadCombo=function(jslist){var updateList="";var requestingModules={};for(var k in jslist){var LS=this.getLS(jslist[k].name);if(!!LS){var version=LS.split(versionString)[0];var code=LS.split(versionString)[1]}else{var version=""}if(version==jslist[k].path){this.jsRunSequence.push({name:jslist[k].name,code:code,path:jslist[k].path})}else{this.jsRunSequence.push({name:jslist[k].name,code:null,path:jslist[k].path,status:"comboloading"});requestingModules[jslist[k].name]=true;updateList+=(updateList==""?"":";")+jslist[k].path}}var that=this;if(!!updateList){var xhr=new XMLHttpRequest;xhr.open("get",combo+updateList,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){that.runCombo(xhr.response,requestingModules);return}}else{for(var i in that.jsRunSequence){if(requestingModules[that.jsRunSequence[i].name]){that.jsRunSequence[i].status="failed"}}that.runjs()}}};xhr.send(null)}this.runjs()};lsloader.runCombo=function(comboCode,requestingModules){comboCode=comboCode.split("/*combojs*/");comboCode.shift();for(var k in this.jsRunSequence){if(!!requestingModules[this.jsRunSequence[k].name]&&!!comboCode[0]){this.jsRunSequence[k].status="comboJS";this.jsRunSequence[k].code=comboCode[0];this.setLS(this.jsRunSequence[k].name,this.jsRunSequence[k].path+versionString+comboCode[0]);comboCode.shift()}}this.runjs()}})();</script>
 
     <!--iOS -->
     <meta name="apple-mobile-web-app-title" content="Title">
@@ -62,69 +77,13 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="TakWolf &#39;s Blog">
 
-    <!-- The Open Graph protocol -->
-    <meta property="og:url" content="http://blog.takwolf.com">
-    <meta property="og:type" content="blog">
-    <meta property="og:title" content="Android 实现视频播放 | TakWolf &#39;s Blog">
-    <meta property="og:image" content="/img/favicon.png" />
-    <meta property="og:description" content="笔记，实现 Android 视频播放。">
-    <meta property="og:article:tag" content="Android"> <meta property="og:article:tag" content="视频播放"> 
-
+    <!-- Site Verification -->
     
-        <meta property="article:published_time" content="10月 16, 2014" />
-        <meta property="article:modified_time" content="6月 23, 2017" />
     
 
-    <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="Android 实现视频播放 | TakWolf &#39;s Blog">
-    <meta name="twitter:description" content="笔记，实现 Android 视频播放。">
-    <meta name="twitter:image" content="/img/favicon.png">
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="http://blog.takwolf.com" />
-
-    <!-- Add canonical link for SEO -->
+    <!-- RSS -->
     
-        <link rel="canonical" href="http://blog.takwolf.com/2014/10/16/android-video-view/index.html" />
     
-
-    <!-- Structured-data for SEO -->
-    
-        
-
-
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "publisher": {
-        "@type": "Organization",
-        "name": "TakWolf &#39;s Blog",
-        "logo": "/img/favicon.png"
-    },
-    "author": {
-        "@type": "Person",
-        "name": "TakWolf",
-        "image": {
-            "@type": "ImageObject",
-            "url": "/img/favicon.png"
-        },
-        "description": "Anima Game Code Repeat"
-    },
-    "headline": "Android 实现视频播放",
-    "url": "http://blog.takwolf.com/2014/10/16/android-video-view/index.html",
-    "datePublished": "10月 16, 2014",
-    "dateModified": "6月 23, 2017",
-    "description": "笔记，实现 Android 视频播放。",
-    "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "http://blog.takwolf.com"
-    }
-}
-</script>
-
-
-    
-
     <!--[if lte IE 9]>
         <link rel="stylesheet" href="/css/ie-blocker.css">
 
@@ -133,23 +92,28 @@
         
     <![endif]-->
 
-    <!-- Import lsloader -->
-    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(key){try{localStorage.removeItem(key)}catch(e){}};lsloader.setLS=function(key,val){try{localStorage.setItem(key,val)}catch(e){}};lsloader.getLS=function(key){var val="";try{val=localStorage.getItem(key)}catch(e){val=""}return val};versionString="/*"+materialVersion+"*/";lsloader.clean=function(){try{var keys=[];for(var i=0;i<localStorage.length;i++){keys.push(localStorage.key(i))}keys.forEach(function(key){var data=lsloader.getLS(key);if(data&&data.indexOf(versionString)===-1){lsloader.removeLS(key)}})}catch(e){}};lsloader.clean();lsloader.load=function(jsname,jspath,cssonload){cssonload=cssonload||function(){};var code;code=this.getLS(jsname);if(code&&code.indexOf(versionString)===-1){this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}if(code){var versionNumber=code.split(versionString)[0];if(versionNumber!=jspath){console.log("reload:"+jspath);this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}code=code.split(versionString)[1];if(/\.js?.+$/.test(versionNumber)){this.jsRunSequence.push({name:jsname,code:code});this.runjs(jspath,jsname,code)}else{document.getElementById(jsname).appendChild(document.createTextNode(code));cssonload()}}else{this.requestResource(jsname,jspath,cssonload)}};lsloader.requestResource=function(name,path,cssonload){var that=this;if(/\.js?.+$/.test(path)){this.iojs(path,name,function(path,name,code){that.setLS(name,path+versionString+code);that.runjs(path,name,code)})}else if(/\.css?.+$/.test(path)){this.iocss(path,name,function(code){document.getElementById(name).appendChild(document.createTextNode(code));that.setLS(name,path+versionString+code)},cssonload)}};lsloader.iojs=function(path,jsname,callback){var that=this;that.jsRunSequence.push({name:jsname,code:""});try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(path,jsname,xhr.response);return}}that.jsfallback(path,jsname)}};xhr.send(null)}catch(e){that.jsfallback(path,jsname)}};lsloader.iocss=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.iofonts=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.runjs=function(path,name,code){if(!!name&&!!code){for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code=code}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var script=document.createElement("script");script.appendChild(document.createTextNode(this.jsRunSequence[0].code));script.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(script);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var that=this;var script=document.createElement("script");script.src=this.jsRunSequence[0].path;script.type="text/javascript";this.jsRunSequence[0].status="loading";script.onload=function(){that.jsRunSequence.shift();if(that.jsRunSequence.length>0){that.runjs()}};document.body.appendChild(script)}};lsloader.tagLoad=function(path,name){this.jsRunSequence.push({name:name,code:"",path:path,status:"failed"});this.runjs()};lsloader.jsfallback=function(path,name){if(!!this.jsnamemap[name]){return}else{this.jsnamemap[name]=name}for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code="";this.jsRunSequence[k].status="failed";this.jsRunSequence[k].path=path}}this.runjs()};lsloader.cssfallback=function(path,name,cssonload){if(!!this.cssnamemap[name]){return}else{this.cssnamemap[name]=1}var link=document.createElement("link");link.type="text/css";link.href=path;link.rel="stylesheet";link.onload=link.onerror=cssonload;var root=document.getElementsByTagName("script")[0];root.parentNode.insertBefore(link,root)};lsloader.runInlineScript=function(scriptId,codeId){var code=document.getElementById(codeId).innerText;this.jsRunSequence.push({name:scriptId,code:code});this.runjs()};lsloader.loadCombo=function(jslist){var updateList="";var requestingModules={};for(var k in jslist){var LS=this.getLS(jslist[k].name);if(!!LS){var version=LS.split(versionString)[0];var code=LS.split(versionString)[1]}else{var version=""}if(version==jslist[k].path){this.jsRunSequence.push({name:jslist[k].name,code:code,path:jslist[k].path})}else{this.jsRunSequence.push({name:jslist[k].name,code:null,path:jslist[k].path,status:"comboloading"});requestingModules[jslist[k].name]=true;updateList+=(updateList==""?"":";")+jslist[k].path}}var that=this;if(!!updateList){var xhr=new XMLHttpRequest;xhr.open("get",combo+updateList,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){that.runCombo(xhr.response,requestingModules);return}}else{for(var i in that.jsRunSequence){if(requestingModules[that.jsRunSequence[i].name]){that.jsRunSequence[i].status="failed"}}that.runjs()}}};xhr.send(null)}this.runjs()};lsloader.runCombo=function(comboCode,requestingModules){comboCode=comboCode.split("/*combojs*/");comboCode.shift();for(var k in this.jsRunSequence){if(!!requestingModules[this.jsRunSequence[k].name]&&!!comboCode[0]){this.jsRunSequence[k].status="comboJS";this.jsRunSequence[k].code=comboCode[0];this.setLS(this.jsRunSequence[k].name,this.jsRunSequence[k].path+versionString+comboCode[0]);comboCode.shift()}}this.runjs()}})();</script>
-
-    <!-- Import CSS & jQuery -->
+    <!-- Import CSS -->
     
-        <style id="css/material.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/material.min.css","/css/material.min.css?fJTiM/K1J3dWIruo3pxtAw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
-        <style id="css/style.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/style.min.css","/css/style.min.css?oCSEO3ST+aEypEwttTDI9g==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        <style id="material_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_css","/css/material.min.css?Z7a72R1E4SxzBKR/WGctOA==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","/css/style.min.css?oCSEO3ST+aEypEwttTDI9g==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+
         
-            <style id="/css/fontawesome.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("/css/fontawesome.min.css","/css/fontawesome.min.css?JpVQUwzBJ7aqWjWSWn3mzg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+
+    
+
+    
         
+            <link rel="preload" href="/css/fontawesome.min.css" as="style" onload="this.rel='stylesheet'">
         
-        <!-- Config CSS -->
+    
+
+    <!-- Config CSS -->
 
 <!-- Other Styles -->
 <style>
   body, html {
     font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    overflow-x: hidden !important;
   }
 
   a {
@@ -247,21 +211,107 @@
 
 
 <!-- Import Font -->
+<!-- Import Roboto -->
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
 
 
-        <script>lsloader.load("js/jquery.min.js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==")</script>
+<!-- Import Material Icon -->
+
+    <style>
+        @font-face {
+            font-family: 'Material Icons';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Material Icons'),
+            local('MaterialIcons-Regular'),
+            url(/fonts/MaterialIcons-Regular.woff2) format('woff2'),
+            url(/fonts/MaterialIcons-Regular.woff) format('woff'),
+            url(/fonts/MaterialIcons-Regular.ttf) format('truetype');
+        }
+    </style>
+
+
+
+
     
+
+    <!-- Import jQuery -->
     
+        <script>lsloader.load("jq_js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==")</script>
+    
+
     <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://blog.takwolf.com">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Android 实现视频播放 | TakWolf &#39;s Blog">
+    <meta property="og:image" content="/img/favicon.png" />
+    <meta property="og:description" content="笔记，实现 Android 视频播放。">
+    <meta property="og:article:tag" content="Android"> <meta property="og:article:tag" content="视频播放"> 
+
+    
+        <meta property="article:published_time" content="Thu Oct 16 2014 10:48:42 GMT+0800" />
+        <meta property="article:modified_time" content="Thu Jun 29 2017 15:04:58 GMT+0800" />
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:title" content="Android 实现视频播放 | TakWolf &#39;s Blog">
+    <meta name="twitter:description" content="笔记，实现 Android 视频播放。">
+    <meta name="twitter:image" content="/img/favicon.png">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="http://blog.takwolf.com" />
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="http://blog.takwolf.com/2014/10/16/android-video-view/index.html" />
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "http://blog.takwolf.com/2014/10/16/android-video-view/index.html",
+    "headline": "Android 实现视频播放",
+    "datePublished": "Thu Oct 16 2014 10:48:42 GMT+0800",
+    "dateModified": "Thu Jun 29 2017 15:04:58 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "TakWolf",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/avatar.png"
+        },
+        "description": "Anima Game Code Repeat"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "TakWolf &#39;s Blog",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/favicon.png"
+        }
+    },
+    "keywords": ",Android,视频播放null",
+    "description": "笔记，实现 Android 视频播放。",
+}
+</script>
+
+
+    
 
     <!-- Analytics -->
     
 
     <!-- Custom Head -->
     
+
 </head>
 
 
@@ -328,8 +378,8 @@
                 </span>
             
                 <span class="header-nav-item">
-                    <a href="/play" title="发现">
-                        <span>发现</span>
+                    <a href="/play" title="好玩">
+                        <span>好玩</span>
                     </a>
                 </span>
             
@@ -448,27 +498,38 @@
             <p>笔记，实现 Android 视频播放。</p>
 <a id="more"></a>
 <p>提到视频播放，有这么几种方法。</p>
-<h2 id="1-调用系统播放器"><a href="#1-调用系统播放器" class="headerlink" title="1.调用系统播放器"></a>1.调用系统播放器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath()+&quot;/video.mp4&quot;);  </div><div class="line">Intent intent = new Intent(Intent.ACTION_VIEW);</div><div class="line">intent.setDataAndType(uri, &quot;video/mp4&quot;); //这句不要忘记，表明资源是视频类型</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure>
+<h2 id="1-调用系统播放器"><a href="#1-调用系统播放器" class="headerlink" title="1.调用系统播放器"></a>1.调用系统播放器</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath()+<span class="string">"/video.mp4"</span>);  </div><div class="line">Intent intent = <span class="keyword">new</span> Intent(Intent.ACTION_VIEW);</div><div class="line">intent.setDataAndType(uri, <span class="string">"video/mp4"</span>); <span class="comment">//这句不要忘记，表明资源是视频类型</span></div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure>
 <h2 id="2-使用MediaPlayer和SurfaceView"><a href="#2-使用MediaPlayer和SurfaceView" class="headerlink" title="2.使用MediaPlayer和SurfaceView"></a>2.使用MediaPlayer和SurfaceView</h2><p>说实话，这种方式太过麻烦，代码就不粘贴了。其实还有更简单的下面的第三种方法。</p>
 <h2 id="3-使用VideoView"><a href="#3-使用VideoView" class="headerlink" title="3.使用VideoView"></a>3.使用VideoView</h2><p>这个本身就是为了播放视频而设计的控件。<br>通过查看基础树我们发现，其实他就是继承了<code>SurfaceView</code>并且实现了<code>MediaPlayerControl</code><br>实质是第二种方式的一个封装，而使用起来要方便很多，视频在 start 调用之后自动加载，你也不需要去手动释放资源，控件都帮你处理了。</p>
 <p>一个非常简单的例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">videoView = (VideoView) findViewById(R.id.video_view);</div><div class="line">videoView.setMediaController(new MediaController(this));</div><div class="line">Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath()+&quot;/video.mp4&quot;);</div><div class="line">videoView.setVideoURI(uri);</div><div class="line">videoView.start();</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">videoView = (VideoView) findViewById(R.id.video_view);</div><div class="line">videoView.setMediaController(<span class="keyword">new</span> MediaController(<span class="keyword">this</span>));</div><div class="line">Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath()+<span class="string">"/video.mp4"</span>);</div><div class="line">videoView.setVideoURI(uri);</div><div class="line">videoView.start();</div></pre></td></tr></table></figure>
 <p>上面代码中的<code>setMediaController</code>可以添加一个媒体控制器。<br>这是一个默认实现的控件，包括进度，暂停神马的，如果没有特殊的要求，功能基本也就够用了。<br>当然，你也可以自己来实现。<br>VideoView 本身也提供媒体控制接口和监听器。</p>
 <p>Android系统默认支持的视频格式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//Video</div><div class="line">addFileType(&quot;MP4&quot;, FILE_TYPE_MP4, &quot;video/mp4&quot;);</div><div class="line">addFileType(&quot;M4V&quot;, FILE_TYPE_M4V, &quot;video/mp4&quot;);</div><div class="line">addFileType(&quot;3GP&quot;, FILE_TYPE_3GPP, &quot;video/3gpp&quot;);</div><div class="line">addFileType(&quot;3GPP&quot;, FILE_TYPE_3GPP, &quot;video/3gpp&quot;);</div><div class="line">addFileType(&quot;3G2&quot;, FILE_TYPE_3GPP2, &quot;video/3gpp2&quot;);</div><div class="line">addFileType(&quot;3GPP2&quot;, FILE_TYPE_3GPP2, &quot;video/3gpp2&quot;);</div><div class="line">addFileType(&quot;WMV&quot;, FILE_TYPE_WMV, &quot;video/x-ms-wmv&quot;);</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Video</span></div><div class="line">addFileType(<span class="string">"MP4"</span>, FILE_TYPE_MP4, <span class="string">"video/mp4"</span>);</div><div class="line">addFileType(<span class="string">"M4V"</span>, FILE_TYPE_M4V, <span class="string">"video/mp4"</span>);</div><div class="line">addFileType(<span class="string">"3GP"</span>, FILE_TYPE_3GPP, <span class="string">"video/3gpp"</span>);</div><div class="line">addFileType(<span class="string">"3GPP"</span>, FILE_TYPE_3GPP, <span class="string">"video/3gpp"</span>);</div><div class="line">addFileType(<span class="string">"3G2"</span>, FILE_TYPE_3GPP2, <span class="string">"video/3gpp2"</span>);</div><div class="line">addFileType(<span class="string">"3GPP2"</span>, FILE_TYPE_3GPP2, <span class="string">"video/3gpp2"</span>);</div><div class="line">addFileType(<span class="string">"WMV"</span>, FILE_TYPE_WMV, <span class="string">"video/x-ms-wmv"</span>);</div></pre></td></tr></table></figure>
 <p>这里还有一个问题要特殊说明一下:<br>VideoView 加载视频需要通过 Uri 或者 Path。<br>上面的代码是从 SDCard 中加载视频的，Uri 的构筑方式是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath()+&quot;/video.mp4&quot;);</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath()+<span class="string">"/video.mp4"</span>);</div></pre></td></tr></table></figure>
 <p>当然，有的时候我们可能并不是要制作一个视频播放器，而是仅仅加载一些应用内置视频，做些产品或者功能演示神马的。<br>我们的第一个思路是将视频文件放到 assets 资源目录下。<br>实际编码中我们发现 AssetManager 竟然不能够直接获取 Path，也无法直接构筑 Uri。<br>我们按照以往的经验:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">WebView webView = new WebView(this);</div><div class="line">webView.loadUrl(file:///android_asset/index.html);</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">WebView webView = <span class="keyword">new</span> WebView(<span class="keyword">this</span>);</div><div class="line">webView.loadUrl(file:<span class="comment">///android_asset/index.html);</span></div></pre></td></tr></table></figure>
 <p>实测这种方式在VideoView中无效，控件会提示视频无法播放，从调试信息来看，应该是控件无法找到视频路径。</p>
 <p>百度和 Google 基本无方案，stackoverflow上有一个解答：<br><a href="http://stackoverflow.com/questions/3746361/i-want-to-play-a-video-from-my-assets-or-raw-folder" target="_blank" rel="external">链接</a></p>
 <p>最终的方案是这样的：<br>将视频文件放到 res/raw 文件夹中（注意res资源的命名规则），然后通过包名和 R 中的资源编号构筑 Uri</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Uri uri = Uri.parse(&quot;android.resource://&quot; + getPackageName() + &quot;/&quot; + R.raw.video);</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Uri uri = Uri.parse(<span class="string">"android.resource://"</span> + getPackageName() + <span class="string">"/"</span> + R.raw.video);</div></pre></td></tr></table></figure>
 <p>最终的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">videoView = (VideoView) findViewById(R.id.video_view);</div><div class="line">videoView.setMediaController(new MediaController(this));</div><div class="line">Uri uri = Uri.parse(&quot;android.resource://&quot; + getPackageName() + &quot;/&quot; + R.raw.video);</div><div class="line">videoView.setVideoURI(uri);</div><div class="line">videoView.start();</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">videoView = (VideoView) findViewById(R.id.video_view);</div><div class="line">videoView.setMediaController(<span class="keyword">new</span> MediaController(<span class="keyword">this</span>));</div><div class="line">Uri uri = Uri.parse(<span class="string">"android.resource://"</span> + getPackageName() + <span class="string">"/"</span> + R.raw.video);</div><div class="line">videoView.setVideoURI(uri);</div><div class="line">videoView.start();</div></pre></td></tr></table></figure>
 <p>问题解决。</p>
 <p>最后附上一个<a href="http://www.open-open.com/lib/view/open1341754267229.html" target="_blank" rel="external">链接</a><br>这里有三种比较详细的视频播放例子，主要是有一个MediaPlay的例子。<br>虽然没有使用，但留个备份。</p>
 
+            
+                <blockquote>
+                    <p>
+                         
+                            This blog is under a <a href="/creativecommons.html" target="_blank">CC BY-NC-SA 3.0 Unported License</a>
+                        
+                        <br>
+                        本文链接： http://blog.takwolf.com/2014/10/16/android-video-view/
+                    </p>
+                </blockquote>
+            
         </div>
     
 </div>
@@ -485,12 +546,13 @@
     <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
 <script>
   var cloudTieConfig = {
-    url: document.location.href, 
+    url: document.location.href,
     sourceId: "",
     productKey: "f693b4af2b104bb48509d52db8e5b6a2",
     target: "cloud-tie-wrapper"
   };
 </script>
+
 
                 
             </div>
@@ -513,7 +575,7 @@
 
     <!-- Next Nav -->
     
-        <a href="/2014/10/08/to-my-college-team/" id="post_nav-older" class="next-content">
+        <a href="/2014/10/06/blog-finished/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
@@ -538,15 +600,17 @@
 </footer>
 
 
-                    <!-- Import File -->
+                    <!-- Import JS File -->
 
-
-    <script>lsloader.load("js/lazyload.min.js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==")</script>
-    <script>lsloader.load("js/js.min.js","/js/js.min.js?oAl/+lvaqTFV31JXTmbrNA==")</script>
+    <script>lsloader.load("lazyload_js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==")</script>
 
 
 
-    <script>lsloader.load("js/nprogress.js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==")</script>
+    <script>lsloader.load("js_js","/js/js.min.js?oAl/+lvaqTFV31JXTmbrNA==")</script>
+
+
+
+    <script>lsloader.load("np_js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==")</script>
 
 
 <script type="text/ls-javascript" id="NProgress-script">
@@ -576,6 +640,9 @@
 
 
 
+    <!-- Busuanzi -->
+    <script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
 
 
    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
@@ -594,12 +661,18 @@
 	}
 </script>
 
-<!-- Window Load-->
+<!-- Import prettify js  -->
+
+
+<!-- Window Load -->
+<!-- add class for prettify -->
 <script type="text/ls-javascript" id="window-load">
     $(window).on('load', function() {
         // Post_Toc parent position fixed
         $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
     });
+
+    
 </script>
 
 <!-- MathJax Load-->
@@ -627,6 +700,10 @@
         $('body').attr('data-original', 'https://api.i-meto.com/bing?null');
     });
 </script>
+
+
+<!-- Custom Footer -->
+
 
 
 <script>
